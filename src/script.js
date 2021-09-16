@@ -21,7 +21,7 @@ const scene = new THREE.Scene()
 const textureLoader = new THREE.TextureLoader()
 
 /**
- * Test mesh
+ * Test mesh 
  */
 // Geometry
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32)
