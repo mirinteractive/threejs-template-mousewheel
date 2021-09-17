@@ -17,35 +17,6 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader()
-
-/**
- * Load Images
- */
-const frame = new THREE.PlaneBufferGeometry(1, 1)
-
-for(let i=0; i<4; i++){
-    const loadImages = new THREE.MeshBasicMaterial({
-        map: textureLoader.load(`/images/${i}.jpeg`)
-    })
-
-    const images = new THREE.Mesh(frame, loadImages)
-    images.position.set(Math.random(), i*-1.8)
-
-    scene.add(images)
-}
-
-let objects = []
-
-scene.traverse((object) => {
-    if (object.isMesh) {
-        objects.push(object)
-    }
-})
-
-/**
  * Sizes
  */
 const sizes = {
@@ -76,11 +47,64 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.set(0.25, - 0.25, 1)
 scene.add(camera)
 
-gui.add(camera.position, 'y').min(-5).max(10)
+// gui.add(camera.position, 'y').min(0).max(10)
 
 // Controls
 // const controls = new OrbitControls(camera, canvas)
 // controls.enableDamping = true
+
+ /**
+  * Test scene
+  */
+ const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
+ wall1.position.set(0, 5, -10)
+
+ const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#fff2b2'}))
+ wall2.position.set(0, -10, -10)
+
+ const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#ffee99'}))
+ wall3.position.set(0, -25, -10)
+
+ scene.add(wall1, wall2, wall3)
+
+const textureLoader = new THREE.TextureLoader()
+
+const matcapTexture8 = textureLoader.load('/textures/matcaps/8.png')
+const matcapTexture7 = textureLoader.load('/textures/matcaps/7.png')
+
+const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45)
+for (let i=0; i<200; i++) {
+    const donut = new THREE.Mesh(donutGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture7}))
+
+    donut.position.x = (Math.random() - 0.5) * 10
+    donut.position.y = (Math.random() - 0.5) * 60
+    donut.position.z = (Math.random() - 0.5) 
+
+    donut.rotation.x = Math.random() * Math.PI
+    donut.rotation.y = Math.random() * Math.PI
+
+    const scale = Math.random()
+    donut.scale.set(scale,scale,scale)
+
+    scene.add(donut)
+}
+
+const dodeGeometry = new THREE.TetrahedronGeometry(1, 0)
+for (let i=0; i<200; i++) {
+    const dode = new THREE.Mesh(dodeGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture8}))
+
+    dode.position.x = (Math.random() - 0.5) * 5
+    dode.position.y = (Math.random() - 0.5) * 60
+    dode.position.z = (Math.random() - 0.5) 
+
+    dode.rotation.x = Math.random() * Math.PI
+    dode.rotation.y = Math.random() * Math.PI
+
+    const scaleDode = Math.random() * 0.5
+    dode.scale.set(scaleDode,scaleDode,scaleDode)
+
+    scene.add(dode)
+}
 
 /**
  * Renderer
@@ -127,26 +151,7 @@ const tick = () =>
     // Update orbit controls
     // controls.update()
 
-    //Raycaster
-    raycaster.setFromCamera(mouse, camera)
-    const intersects = raycaster.intersectObjects(objects)
-
-    for(const intersect of intersects){
-        // intersect.object.scale.set(1.1, 1.1)
-        gsap.to(intersect.object.scale, {x:1.7, y:1.7})
-        gsap.to(intersect.object.rotation, {y:-0.5})
-        gsap.to(intersect.object.position, {z:-0.9})
-    }
-
-    //inverse of casting objects
-    for(const object of objects){
-        if (!intersects.find(intersect => intersect.object === object)) {
-            // object.scale.set(1,1)
-            gsap.to(object.scale, {x:1, y:1})
-            gsap.to(object.rotation, {y:0})
-            gsap.to(object.position, {z:0})
-        }
-    }
+    
 
     //update mousewheel
     updatePosition += mousePositionY
