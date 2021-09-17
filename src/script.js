@@ -57,13 +57,17 @@ scene.add(camera)
   * Test scene
   */
  const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
- wall1.position.set(0, 5, -10)
+ wall1.position.set(0, -1, 0)
+ wall1.rotation.set(-Math.PI*0.5, 0, 0)
 
  const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#fff2b2'}))
- wall2.position.set(0, -10, -10)
+ wall2.position.set(0, -1, -15)
+ wall2.rotation.set(-Math.PI*0.5, 0, 0)
+
 
  const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#ffee99'}))
- wall3.position.set(0, -25, -10)
+ wall3.position.set(0, -1, -30)
+ wall3.rotation.set(-Math.PI*0.5, 0, 0)
 
  scene.add(wall1, wall2, wall3)
 
@@ -76,34 +80,34 @@ const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45)
 for (let i=0; i<200; i++) {
     const donut = new THREE.Mesh(donutGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture7}))
 
-    donut.position.x = (Math.random() - 0.5) * 10
-    donut.position.y = (Math.random() - 0.5) * 60
-    donut.position.z = (Math.random() - 0.5) 
+    donut.position.x = (Math.random() - 0.5) * 15
+    donut.position.y = (Math.random() - 0.5) * 2
+    donut.position.z = (Math.random() - 0.5) * 60
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
 
-    const scale = Math.random()
-    donut.scale.set(scale,scale,scale)
+    const scaleDonut = Math.random()
+    donut.scale.set(scaleDonut,scaleDonut,scaleDonut)
 
     scene.add(donut)
 }
 
-const dodeGeometry = new THREE.TetrahedronGeometry(1, 0)
+const tetraGeometry = new THREE.TetrahedronGeometry(1, 0)
 for (let i=0; i<200; i++) {
-    const dode = new THREE.Mesh(dodeGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture8}))
+    const tetra = new THREE.Mesh(tetraGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture8}))
 
-    dode.position.x = (Math.random() - 0.5) * 5
-    dode.position.y = (Math.random() - 0.5) * 60
-    dode.position.z = (Math.random() - 0.5) 
+    tetra.position.x = (Math.random() - 0.5) * 15
+    tetra.position.y = (Math.random() - 0.5) * 2
+    tetra.position.z = (Math.random() - 0.5) * 60
 
-    dode.rotation.x = Math.random() * Math.PI
-    dode.rotation.y = Math.random() * Math.PI
+    tetra.rotation.x = Math.random() * Math.PI
+    tetra.rotation.y = Math.random() * Math.PI
 
-    const scaleDode = Math.random() * 0.5
-    dode.scale.set(scaleDode,scaleDode,scaleDode)
+    const scaleTetta = Math.random() * 0.5
+    tetra.scale.set(scaleTetta,scaleTetta,scaleTetta)
 
-    scene.add(dode)
+    scene.add(tetra)
 }
 
 /**
