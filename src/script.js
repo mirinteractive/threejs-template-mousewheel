@@ -110,7 +110,8 @@ for (let i=0; i<200; i++) {
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    alpha: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -159,6 +160,7 @@ const tick = () =>
     camera.position.y = -updatePosition
 
     // Render
+    // renderer.setClearColor(0xff0000)
     renderer.render(scene, camera)
 
     // Call tick again on the next frame
