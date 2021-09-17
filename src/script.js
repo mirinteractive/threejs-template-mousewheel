@@ -136,11 +136,6 @@ window.addEventListener('mousemove', (event) => {
 })
 
 /**
- * Raycaster
- */
-const raycaster = new THREE.Raycaster()
-
-/**
  * Animate
  */
 const clock = new THREE.Clock()
@@ -157,7 +152,9 @@ const tick = () =>
     //update mousewheel
     updatePosition += mousePositionY
     mousePositionY *= 0.9 //decrease mousewheel speed (smaller = stop faster)
-    camera.position.y = -updatePosition
+    camera.position.z = updatePosition
+
+    // console.log(mousePositionZ);
 
     // Render
     // renderer.setClearColor(0xff0000)
