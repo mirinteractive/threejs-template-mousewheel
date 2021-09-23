@@ -66,8 +66,8 @@ scene.add(camera)
 
 
  const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#ffee99'}))
- wall3.position.set(0, -1, -30)
- wall3.rotation.set(-Math.PI*0.5, 0, 0)
+ wall3.position.set(0, -10, -35)
+//  wall3.rotation.set(0, 0, 0)
 
  scene.add(wall1, wall2, wall3)
 
@@ -140,25 +140,41 @@ window.addEventListener('mousemove', (event) => {
 })
 
 /**
+ * Intersected Objects
+ * 나중에는 point만 사용해서 추가할 수 있는 방법 찾기
+ */
+// const intersectPoint1 = new THREE.Vector3(0.25,-0.25,30)
+const intersectPoint1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 0.1), new THREE.MeshBasicMaterial({color: '#FF6978'}))
+intersectPoint1.position.set(0, -2, -25)
+intersectPoint1.rotation.set(-Math.PI*0.5, 0, 0)
+
+scene.add(intersectPoint1)
+
+/**
  * Animate
  */
-const clock = new THREE.Clock()
-
 const tick = () =>
 {
-    const elapsedTime = clock.getElapsedTime()
-
-    // Update orbit controls
-    // controls.update()
-
-    
+    let cameraPosition = camera.position
 
     //update mousewheel
     updatePosition += mousePosition
     mousePosition *= 0.9 //decrease mousewheel speed (smaller = stop faster)
-    camera.position.z = updatePosition
+    cameraPosition.z = updatePosition
 
-    // console.log(mousePositionZ);
+    //Raycaster
+    const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
+    const raycaster = new THREE.Raycaster()
+    const rayDirection = new THREE.Vector3(1,-10,1)
+    rayDirection.normalize()
+    raycaster.set(rayOrigin, rayDirection)
+
+    const intersect1 = raycaster.intersectObject(intersectPoint1)
+
+    for(const intersect of intersect1){
+        console.log(intersect.point);
+        // cameraPosition.y = updatePosition
+    }
 
     // Render
     // renderer.setClearColor(0xff0000)
