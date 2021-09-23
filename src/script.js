@@ -130,6 +130,12 @@ function onMouseWheel(event) {
 
 const mouse = new THREE.Vector2()
 
+function mousePositionTest() {
+    // updatePosition = 0
+    updatePosition += mousePosition
+    mousePosition *= 0.9
+}
+
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX / sizes.width *2-1 //transfer values from -1 to +1
     mouse.y = -(event.clientY / sizes.height) *2+1 //invert the value
@@ -154,13 +160,19 @@ const tick = () =>
     let cameraPosition = camera.position
 
     //update mousewheel
-    updatePosition += mousePosition
-    mousePosition *= 0.9 //decrease mousewheel speed (smaller = stop faster)
+    // updatePosition += mousePosition
+    // mousePosition *= 0.9 //decrease mousewheel speed (smaller = stop faster)
     // cameraPosition.y = updatePosition
+    mousePositionTest()
+
+    // console.log('updatePosition', updatePosition);
+    // console.log('mousePosition', mousePosition);
+    // 로그를 찍어보면 마우스 포지션이 갑자기 0이 되면서 특정 위치로 이동을 해버림
 
     //Raycaster
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
-    
+    let test = false
+
     const raycasterZ = new THREE.Raycaster()
     const rayDirectionZ = new THREE.Vector3(1,-1,1)
     rayDirectionZ.normalize()
@@ -176,19 +188,21 @@ const tick = () =>
     const intersectZ = raycasterZ.intersectObjects(intersectObjectsZ)
     const intersectY = raycasterY.intersectObjects(intersectObjectsY)
 
-    let test = false
-
     for(const intersect of intersectZ){
-        test = true
+        // mousePosition = 0
         cameraPosition.z = updatePosition
+        test = true
+        // console.log('updatePositionZ', updatePosition);
+        // console.log('mousePositionZ', mousePosition);
     }
 
     if(test != true) {
         // cameraPosition.y = updatePosition
-        console.log(test);
+        // console.log(test);
         for(const intersect of intersectY){
             cameraPosition.y = updatePosition
-            console.log('yay');
+            // console.log('updatePositionY', updatePosition);
+            // console.log('mousePositionY', mousePosition);
         }
     }
 
