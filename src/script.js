@@ -56,20 +56,16 @@ scene.add(camera)
  /**
   * Test scene
   */
- const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
- wall1.position.set(0, -1, 0)
+ const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
+ wall1.position.set(0, -1, -10)
  wall1.rotation.set(-Math.PI*0.5, 0, 0)
 
- const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#fff2b2'}))
- wall2.position.set(0, -1, -15)
- wall2.rotation.set(-Math.PI*0.5, 0, 0)
 
-
- const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 15), new THREE.MeshBasicMaterial({color: '#ffee99'}))
- wall3.position.set(0, -10, -35)
+ const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#ffee99'}))
+ wall2.position.set(0, -15, -35)
 //  wall3.rotation.set(0, 0, 0)
 
- scene.add(wall1, wall2, wall3)
+ scene.add(wall1, wall2)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -160,21 +156,43 @@ const tick = () =>
     //update mousewheel
     updatePosition += mousePosition
     mousePosition *= 0.9 //decrease mousewheel speed (smaller = stop faster)
-    cameraPosition.z = updatePosition
+    // cameraPosition.y = updatePosition
 
     //Raycaster
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
-    const raycaster = new THREE.Raycaster()
-    const rayDirection = new THREE.Vector3(1,-10,1)
-    rayDirection.normalize()
-    raycaster.set(rayOrigin, rayDirection)
+    
+    const raycasterZ = new THREE.Raycaster()
+    const rayDirectionZ = new THREE.Vector3(1,-1,1)
+    rayDirectionZ.normalize()
+    raycasterZ.set(rayOrigin, rayDirectionZ)
 
-    const intersect1 = raycaster.intersectObject(intersectPoint1)
+    const raycasterY = new THREE.Raycaster()
+    const rayDirectionY = new THREE.Vector3(0,0,-10)
+    rayDirectionY.normalize()
+    raycasterY.set(rayOrigin, rayDirectionY)
 
-    for(const intersect of intersect1){
-        console.log(intersect.point);
-        // cameraPosition.y = updatePosition
+    const intersectObjectsZ = [wall1]
+    const intersectObjectsY = [wall2]
+    const intersectZ = raycasterZ.intersectObjects(intersectObjectsZ)
+    const intersectY = raycasterY.intersectObjects(intersectObjectsY)
+
+    let test = false
+
+    for(const intersect of intersectZ){
+        test = true
+        cameraPosition.z = updatePosition
     }
+
+    if(test != true) {
+        // cameraPosition.y = updatePosition
+        console.log(test);
+        for(const intersect of intersectY){
+            cameraPosition.y = updatePosition
+            console.log('yay');
+        }
+    }
+
+    scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
 
     // Render
     // renderer.setClearColor(0xff0000)
