@@ -125,11 +125,11 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 window.addEventListener("wheel", onMouseWheel)
 
-let mousePositionY = 0
+let mousePosition = 0
 let updatePosition = 0
 
 function onMouseWheel(event) {
-    mousePositionY = event.deltaY * 0.0007 //smaller number faster scroll speed
+    mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
 }
 
 const mouse = new THREE.Vector2()
@@ -154,8 +154,8 @@ const tick = () =>
     
 
     //update mousewheel
-    updatePosition += mousePositionY
-    mousePositionY *= 0.9 //decrease mousewheel speed (smaller = stop faster)
+    updatePosition += mousePosition
+    mousePosition *= 0.9 //decrease mousewheel speed (smaller = stop faster)
     camera.position.z = updatePosition
 
     // console.log(mousePositionZ);
