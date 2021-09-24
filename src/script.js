@@ -154,16 +154,16 @@ scene.add(intersectPoint1)
 /**
  * Raycaster
  */
-    const raycasterZ = new THREE.Raycaster()
-    const rayDirectionZ = new THREE.Vector3(1,-1,1)
-    rayDirectionZ.normalize()
+const raycasterZ = new THREE.Raycaster()
+const rayDirectionZ = new THREE.Vector3(1,-1,1)
+rayDirectionZ.normalize()
 
-    const raycasterY = new THREE.Raycaster()
-    const rayDirectionY = new THREE.Vector3(0,0,-10)
-    rayDirectionY.normalize()
+const raycasterY = new THREE.Raycaster()
+const rayDirectionY = new THREE.Vector3(0,0,-10)
+rayDirectionY.normalize()
 
-    const intersectObjectsZ = [wall1]
-    const intersectObjectsY = [wall2]
+const intersectObjectsZ = [wall1]
+const intersectObjectsY = [wall2]
 
 /**
  * Animate
@@ -172,19 +172,11 @@ const tick = () =>
 {
     let cameraPosition = camera.position
 
-    //update mousewheel
-    // updatePosition += mousePosition
-    // mousePosition *= 0.9 //decrease mousewheel speed (smaller = stop faster)
-    // cameraPosition.y = updatePosition
     mousePositionTest()
 
-    // console.log('updatePosition', updatePosition);
-    // console.log('mousePosition', mousePosition);
-    // 로그를 찍어보면 마우스 포지션이 갑자기 0이 되면서 특정 위치로 이동을 해버림
-
     //Raycaster
+    let castZ = false
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
-    let test = false
 
     raycasterZ.set(rayOrigin, rayDirectionZ)
     raycasterY.set(rayOrigin, rayDirectionY)
@@ -195,23 +187,21 @@ const tick = () =>
     for(const intersect of intersectZ){
         // mousePosition = 0
         cameraPosition.z = updatePosition
-        test = true
+        castZ = true
     }
 
-    if(test != true) {
+    if(castZ != true) {
         cameraPosition.y = updatePosition
         // console.log(test);
         // for(const intersect of intersectY){
         //     cameraPosition.y = updatePosition
-        //     // console.log('updatePositionY', updatePosition);
-        //     // console.log('mousePositionY', mousePosition);
         // }
     }
 
     scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
 
     // Render
-    // renderer.setClearColor(0xff0000)
+    // controls.update()
     renderer.render(scene, camera)
 
     // Call tick again on the next frame
