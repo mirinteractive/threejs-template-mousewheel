@@ -131,7 +131,6 @@ function onMouseWheel(event) {
 const mouse = new THREE.Vector2()
 
 function mousePositionTest() {
-    // updatePosition = 0
     updatePosition += mousePosition
     mousePosition *= 0.9
 }
@@ -151,6 +150,20 @@ intersectPoint1.position.set(0, -2, -25)
 intersectPoint1.rotation.set(-Math.PI*0.5, 0, 0)
 
 scene.add(intersectPoint1)
+
+/**
+ * Raycaster
+ */
+    const raycasterZ = new THREE.Raycaster()
+    const rayDirectionZ = new THREE.Vector3(1,-1,1)
+    rayDirectionZ.normalize()
+
+    const raycasterY = new THREE.Raycaster()
+    const rayDirectionY = new THREE.Vector3(0,0,-10)
+    rayDirectionY.normalize()
+
+    const intersectObjectsZ = [wall1]
+    const intersectObjectsY = [wall2]
 
 /**
  * Animate
@@ -173,18 +186,9 @@ const tick = () =>
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
     let test = false
 
-    const raycasterZ = new THREE.Raycaster()
-    const rayDirectionZ = new THREE.Vector3(1,-1,1)
-    rayDirectionZ.normalize()
     raycasterZ.set(rayOrigin, rayDirectionZ)
-
-    const raycasterY = new THREE.Raycaster()
-    const rayDirectionY = new THREE.Vector3(0,0,-10)
-    rayDirectionY.normalize()
     raycasterY.set(rayOrigin, rayDirectionY)
 
-    const intersectObjectsZ = [wall1]
-    const intersectObjectsY = [wall2]
     const intersectZ = raycasterZ.intersectObjects(intersectObjectsZ)
     const intersectY = raycasterY.intersectObjects(intersectObjectsY)
 
@@ -192,18 +196,16 @@ const tick = () =>
         // mousePosition = 0
         cameraPosition.z = updatePosition
         test = true
-        // console.log('updatePositionZ', updatePosition);
-        // console.log('mousePositionZ', mousePosition);
     }
 
     if(test != true) {
-        // cameraPosition.y = updatePosition
+        cameraPosition.y = updatePosition
         // console.log(test);
-        for(const intersect of intersectY){
-            cameraPosition.y = updatePosition
-            // console.log('updatePositionY', updatePosition);
-            // console.log('mousePositionY', mousePosition);
-        }
+        // for(const intersect of intersectY){
+        //     cameraPosition.y = updatePosition
+        //     // console.log('updatePositionY', updatePosition);
+        //     // console.log('mousePositionY', mousePosition);
+        // }
     }
 
     scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
