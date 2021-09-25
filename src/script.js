@@ -122,7 +122,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 window.addEventListener("wheel", onMouseWheel)
 
 let mousePosition = 0
-let updatePosition = 0
+let updatePositionZ = 0
+let updatePositionY = 0
 
 function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
@@ -130,8 +131,13 @@ function onMouseWheel(event) {
 
 const mouse = new THREE.Vector2()
 
-function mousePositionTest() {
-    updatePosition += mousePosition
+function mousePositionZ() {
+    updatePositionZ += mousePosition
+    mousePosition *= 0.9
+}
+
+function mousePositionY() {
+    updatePositionY += mousePosition
     mousePosition *= 0.9
 }
 
@@ -172,8 +178,6 @@ const tick = () =>
 {
     let cameraPosition = camera.position
 
-    mousePositionTest()
-
     //Raycaster
     let cast = false
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
@@ -185,17 +189,16 @@ const tick = () =>
     const intersectY = raycasterY.intersectObjects(intersectObjectsY)
 
     for(const intersect of intersectZ){
-        // mousePosition = 0
-        cameraPosition.z = updatePosition
+        mousePositionZ()
+        cameraPosition.z = updatePositionZ
         cast = true
     }
 
     if(cast != true) {
-        cameraPosition.y = updatePosition
-        // console.log(test);
-        // for(const intersect of intersectY){
-        //     cameraPosition.y = updatePosition
-        // }
+        for(const intersect of intersectY){
+            mousePositionY()
+            cameraPosition.y = updatePositionY
+        }
     }
 
     scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
