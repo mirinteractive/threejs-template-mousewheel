@@ -195,8 +195,8 @@ const tick = () =>
     }
 
     if(cast != true) {
+        mousePositionY()
         for(const intersect of intersectY){
-            mousePositionY()
             cameraPosition.y = updatePositionY
         }
     }
