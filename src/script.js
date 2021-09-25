@@ -175,7 +175,7 @@ const tick = () =>
     mousePositionTest()
 
     //Raycaster
-    let castZ = false
+    let cast = false
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
 
     raycasterZ.set(rayOrigin, rayDirectionZ)
@@ -187,10 +187,10 @@ const tick = () =>
     for(const intersect of intersectZ){
         // mousePosition = 0
         cameraPosition.z = updatePosition
-        castZ = true
+        cast = true
     }
 
-    if(castZ != true) {
+    if(cast != true) {
         cameraPosition.y = updatePosition
         // console.log(test);
         // for(const intersect of intersectY){
