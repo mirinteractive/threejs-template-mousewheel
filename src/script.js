@@ -56,16 +56,16 @@ scene.add(camera)
  /**
   * Test scene
   */
- const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
- wall1.position.set(0, -1, -10)
- wall1.rotation.set(-Math.PI*0.5, 0, 0)
+ const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
+ plane1.position.set(0, -1, -10)
+ plane1.rotation.set(-Math.PI*0.5, 0, 0)
 
 
- const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#ffee99'}))
- wall2.position.set(0, -15, -35)
+ const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#ffee99'}))
+ plane2.position.set(0, -15, -35)
 //  wall3.rotation.set(0, 0, 0)
 
- scene.add(wall1, wall2)
+ scene.add(plane1, plane2)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -160,11 +160,11 @@ const rayDirectionZ = new THREE.Vector3(1,-1,1)
 rayDirectionZ.normalize()
 
 const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,0,-1)
+const rayDirectionY = new THREE.Vector3(0,-1,-0.5)
 rayDirectionY.normalize()
 
-const intersectObjectsZ = [wall1]
-const intersectObjectsY = [wall2]
+const intersectObjectsZ = [plane1]
+const intersectObjectsY = [plane2]
 
 /**
  * Animate
@@ -195,7 +195,9 @@ const tick = () =>
         mousePositionY()
         cameraPosition.y = updatePositionY
         for(const intersect of intersectY){
-            console.log(intersect);
+            mousePositionX()
+            //-updatePositionX하면 반대로 이동
+            cameraPosition.x = updatePositionX
         }
     }
 
