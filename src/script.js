@@ -124,6 +124,7 @@ window.addEventListener("wheel", onMouseWheel)
 let mousePosition = 0
 let updatePositionZ = 0
 let updatePositionY = 0
+let updatePositionX = 0
 
 function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
@@ -138,6 +139,11 @@ function mousePositionZ() {
 
 function mousePositionY() {
     updatePositionY += mousePosition
+    mousePosition *= 0.9
+}
+
+function mousePositionX() {
+    updatePositionX += mousePosition
     mousePosition *= 0.9
 }
 
@@ -194,9 +200,9 @@ const tick = () =>
         cast = true
     }
 
-    if(cast != true) {
-        mousePositionY() 
+    if(cast != true) { 
         for(const intersect of intersectY){
+            mousePositionY()
             cameraPosition.y = updatePositionY
         }
     }
