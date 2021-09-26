@@ -153,17 +153,6 @@ window.addEventListener('mousemove', (event) => {
 })
 
 /**
- * Intersected Objects
- * 나중에는 point만 사용해서 추가할 수 있는 방법 찾기
- */
-// const intersectPoint1 = new THREE.Vector3(0.25,-0.25,30)
-const intersectPoint1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 0.1), new THREE.MeshBasicMaterial({color: '#FF6978'}))
-intersectPoint1.position.set(0, -2, -25)
-intersectPoint1.rotation.set(-Math.PI*0.5, 0, 0)
-
-scene.add(intersectPoint1)
-
-/**
  * Raycaster
  */
 const raycasterZ = new THREE.Raycaster()
@@ -171,7 +160,7 @@ const rayDirectionZ = new THREE.Vector3(1,-1,1)
 rayDirectionZ.normalize()
 
 const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,0,-10)
+const rayDirectionY = new THREE.Vector3(0,0,-1)
 rayDirectionY.normalize()
 
 const intersectObjectsZ = [wall1]
@@ -194,6 +183,7 @@ const tick = () =>
     const intersectZ = raycasterZ.intersectObjects(intersectObjectsZ)
     const intersectY = raycasterY.intersectObjects(intersectObjectsY)
 
+    //camera movement to z axis at specific direction
     for(const intersect of intersectZ){
         mousePositionZ()
         cameraPosition.z = updatePositionZ
@@ -201,9 +191,11 @@ const tick = () =>
     }
 
     if(cast != true) { 
+        //default camera movement = y axis
+        mousePositionY()
+        cameraPosition.y = updatePositionY
         for(const intersect of intersectY){
-            mousePositionY()
-            cameraPosition.y = updatePositionY
+            console.log(intersect);
         }
     }
 
