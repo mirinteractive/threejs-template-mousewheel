@@ -56,16 +56,18 @@ scene.add(camera)
  /**
   * Test scene
   */
- const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#fff6cc'}))
+ const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#93B5C6'}))
  plane1.position.set(0, -1, -10)
  plane1.rotation.set(-Math.PI*0.5, 0, 0)
 
-
- const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#ffee99'}))
+ const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#DDEDAA'}))
  plane2.position.set(0, -15, -35)
-//  wall3.rotation.set(0, 0, 0)
 
- scene.add(plane1, plane2)
+ const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#F0CF65'}))
+ plane3.position.set(0, -35, -35)
+ plane3.rotation.set(-Math.PI*0.5, 0, 0)
+
+ scene.add(plane1, plane2, plane3)
 
 const textureLoader = new THREE.TextureLoader()
 
