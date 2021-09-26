@@ -55,16 +55,17 @@ scene.add(camera)
 
  /**
   * Test scene
+  * E5D352 EE6C4D
   */
- const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#93B5C6'}))
+ const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#662C91'}))
  plane1.position.set(0, -1, -10)
  plane1.rotation.set(-Math.PI*0.5, 0, 0)
 
- const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#DDEDAA'}))
+ const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#537D8D'}))
  plane2.position.set(0, -15, -35)
 
- const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#F0CF65'}))
- plane3.position.set(0, -35, -35)
+ const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 60), new THREE.MeshBasicMaterial({color: '#D9E76C'}))
+ plane3.position.set(0, -40, -4)
  plane3.rotation.set(-Math.PI*0.5, 0, 0)
 
  scene.add(plane1, plane2, plane3)
@@ -75,12 +76,12 @@ const matcapTexture8 = textureLoader.load('/textures/matcaps/8.png')
 const matcapTexture7 = textureLoader.load('/textures/matcaps/7.png')
 
 const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45)
-for (let i=0; i<200; i++) {
+for (let i=0; i<300; i++) {
     const donut = new THREE.Mesh(donutGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture7}))
 
-    donut.position.x = (Math.random() - 0.5) * 15
-    donut.position.y = (Math.random() - 0.5) * 2
-    donut.position.z = (Math.random() - 0.5) * 60
+    donut.position.x = (Math.random() - 0.5) * -60
+    donut.position.y = (Math.random() - 0.5) * 30
+    donut.position.z = (Math.random() - 0.5) * 30
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
@@ -92,12 +93,12 @@ for (let i=0; i<200; i++) {
 }
 
 const tetraGeometry = new THREE.TetrahedronGeometry(1, 0)
-for (let i=0; i<200; i++) {
+for (let i=0; i<300; i++) {
     const tetra = new THREE.Mesh(tetraGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture8}))
 
-    tetra.position.x = (Math.random() - 0.5) * 15
-    tetra.position.y = (Math.random() - 0.5) * 2
-    tetra.position.z = (Math.random() - 0.5) * 60
+    tetra.position.x = (Math.random() - 0.5) * -60
+    tetra.position.y = (Math.random() - 0.5) * 30
+    tetra.position.z = (Math.random() - 0.5) * 30
 
     tetra.rotation.x = Math.random() * Math.PI
     tetra.rotation.y = Math.random() * Math.PI
@@ -127,6 +128,7 @@ let mousePosition = 0
 let updatePositionZ = 0
 let updatePositionY = 0
 let updatePositionX = 0
+let updateRotationY = 0
 
 function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
@@ -134,6 +136,8 @@ function onMouseWheel(event) {
 
 const mouse = new THREE.Vector2()
 
+// ToDo:
+// 이 더러운것들 생성자나 함수 하나만 써서 묶어주기...
 function mousePositionZ() {
     updatePositionZ += mousePosition
     mousePosition *= 0.9
@@ -149,6 +153,11 @@ function mousePositionX() {
     mousePosition *= 0.9
 }
 
+function mouseRotationY() {
+    updateRotationY += mousePosition
+    mousePosition *= 0.9
+}
+
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX / sizes.width *2-1 //transfer values from -1 to +1
     mouse.y = -(event.clientY / sizes.height) *2+1 //invert the value
@@ -158,11 +167,11 @@ window.addEventListener('mousemove', (event) => {
  * Raycaster
  */
 const raycasterZ = new THREE.Raycaster()
-const rayDirectionZ = new THREE.Vector3(1,-1,1)
+const rayDirectionZ = new THREE.Vector3(0,-1,0)
 rayDirectionZ.normalize()
 
 const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,-1,-0.5)
+const rayDirectionY = new THREE.Vector3(0,-1,-5)
 rayDirectionY.normalize()
 
 const intersectObjectsZ = [plane1]
@@ -174,19 +183,29 @@ const intersectObjectsY = [plane2]
 const tick = () =>
 {
     let cameraPosition = camera.position
+    let cameraRotation = camera.rotation
 
     //Raycaster
     let cast = false
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
 
-    raycasterZ.set(rayOrigin, rayDirectionZ)
-    raycasterY.set(rayOrigin, rayDirectionY)
+    //ToDo:
+    //ray near far & ray direction 맞게 설정해주기
+    raycasterZ.set(rayOrigin, rayDirectionZ, 0, 1)
+    raycasterY.set(rayOrigin, rayDirectionY, 0, 1)
 
-    const intersectZ = raycasterZ.intersectObjects(intersectObjectsZ)
-    const intersectY = raycasterY.intersectObjects(intersectObjectsY)
+    const intersect1 = raycasterZ.intersectObject(plane1)
+    const intersect2 = raycasterY.intersectObject(plane2)
+    const intersect3 = raycasterZ.intersectObject(plane3)
 
     //camera movement to z axis at specific direction
-    for(const intersect of intersectZ){
+    for(const intersect of intersect1){
+        mousePositionZ()
+        cameraPosition.z = updatePositionZ
+        cast = true
+    }
+
+    for(const intersect of intersect3){
         mousePositionZ()
         cameraPosition.z = updatePositionZ
         cast = true
@@ -196,13 +215,17 @@ const tick = () =>
         //default camera movement = y axis
         mousePositionY()
         cameraPosition.y = updatePositionY
-        for(const intersect of intersectY){
-            mousePositionX()
-            //-updatePositionX하면 반대로 이동
-            cameraPosition.x = updatePositionX
+        for(const intersect of intersect2){
+            //x position 움직이는 로직
+            // mousePositionX()
+            // //-updatePositionX하면 반대로 이동
+            // cameraPosition.x = updatePositionX
+            mouseRotationY()
+            cameraRotation.y = updateRotationY * (Math.PI*0.1)
         }
     }
 
+    scene.add(new THREE.ArrowHelper(raycasterZ.ray.direction, raycasterZ.ray.origin, 300, 0xff0000) );
     scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
 
     // Render
