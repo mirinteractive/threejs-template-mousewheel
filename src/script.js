@@ -167,7 +167,7 @@ window.addEventListener('mousemove', (event) => {
  * Raycaster
  */
 const raycasterZ = new THREE.Raycaster()
-const rayDirectionZ = new THREE.Vector3(1,-1,1)
+const rayDirectionZ = new THREE.Vector3(0.1,-1,0.1)
 rayDirectionZ.normalize()
 
 const raycasterY = new THREE.Raycaster()
