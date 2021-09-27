@@ -214,7 +214,7 @@ const tick = () =>
             // //-updatePositionX하면 반대로 이동
             // cameraPosition.x = updatePositionX
             mouseRotationY()
-            cameraRotation.y = updateRotationY * (Math.PI*0.1)
+            cameraRotation.y = updateRotationY*(Math.PI*0.092)
         }
     }
 
