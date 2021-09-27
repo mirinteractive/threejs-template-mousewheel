@@ -64,8 +64,8 @@ scene.add(camera)
  const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#FFE1A8'}))
  plane2.position.set(0, -10, -25)
 
- const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
- plane3.position.set(-15, -20, -15)
+ const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(30, 10), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
+ plane3.position.set(-10, -20, -15)
  plane3.rotation.set(-Math.PI*0.5, 0, 0)
 
  scene.add(plane1, plane2, plane3)
@@ -174,8 +174,13 @@ const raycasterY = new THREE.Raycaster()
 const rayDirectionY = new THREE.Vector3(0,-1,-5)
 rayDirectionY.normalize()
 
+const raycasterX = new THREE.Raycaster()
+const rayDirectionX = new THREE.Vector3(0.1,-1,0.1)
+rayDirectionX.normalize()
+
 const intersectObjectsZ = [plane1]
 const intersectObjectsY = [plane2]
+const intersectObjectsX = [plane3]
 
 /**
  * Animate
@@ -190,17 +195,23 @@ const tick = () =>
     const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
 
     //ToDo:
-    //ray near far & ray direction 맞게 설정해주기
     raycasterZ.set(rayOrigin, rayDirectionZ)
     raycasterY.set(rayOrigin, rayDirectionY)
+    raycasterX.set(rayOrigin, rayDirectionY)
 
     const intersect1 = raycasterZ.intersectObjects(intersectObjectsZ)
     const intersect2 = raycasterY.intersectObjects(intersectObjectsY)
+    const intersect3 = raycasterX.intersectObjects(intersectObjectsX)
 
-    //camera movement to z axis at specific direction
     for(const intersect of intersect1){
         mousePositionZ()
         cameraPosition.z = updatePositionZ
+        cast = true
+    }
+
+    for(const intersect of intersect3){
+        mousePositionX()
+        cameraPosition.x = updatePositionX
         cast = true
     }
 
@@ -209,10 +220,6 @@ const tick = () =>
         mousePositionY()
         cameraPosition.y = updatePositionY
         for(const intersect of intersect2){
-            //x position 움직이는 로직
-            // mousePositionX()
-            // //-updatePositionX하면 반대로 이동
-            // cameraPosition.x = updatePositionX
             mouseRotationY()
             cameraRotation.y = updateRotationY*(Math.PI*0.092)
         }
