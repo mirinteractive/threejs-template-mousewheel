@@ -57,18 +57,18 @@ scene.add(camera)
   * Test scene
   * E5D352 EE6C4D
   */
- const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 30), new THREE.MeshBasicMaterial({color: '#C9CBA3'}))
- plane1.position.set(0, -1, 0)
- plane1.rotation.set(-Math.PI*0.5, 0, 0)
+ const planeTop1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 30), new THREE.MeshBasicMaterial({color: '#C9CBA3'}))
+ planeTop1.position.set(0, -1, 0)
+ planeTop1.rotation.set(-Math.PI*0.5, 0, 0)
 
- const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#FFE1A8'}))
- plane2.position.set(0, -10, -25)
+ const planeElevation1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#FFE1A8'}))
+ planeElevation1.position.set(0, -10, -25)
 
- const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(30, 10), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
- plane3.position.set(-10, -20, -15)
- plane3.rotation.set(-Math.PI*0.5, 0, 0)
+ const planeBottom1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
+ planeBottom1.position.set(-10, -20, -15)
+ planeBottom1.rotation.set(-Math.PI*0.5, 0, 0)
 
- scene.add(plane1, plane2, plane3)
+ scene.add(planeTop1, planeElevation1, planeBottom1)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -178,9 +178,9 @@ const raycasterX = new THREE.Raycaster()
 const rayDirectionX = new THREE.Vector3(0.1,-1,0.1)
 rayDirectionX.normalize()
 
-const intersectObjectsZ = [plane1]
-const intersectObjectsY = [plane2]
-const intersectObjectsX = [plane3]
+const intersectObjectsZ = [planeTop1]
+const intersectObjectsY = [planeElevation1]
+const intersectObjectsX = [planeBottom1]
 
 /**
  * Animate
@@ -199,17 +199,17 @@ const tick = () =>
     raycasterY.set(rayOrigin, rayDirectionY)
     raycasterX.set(rayOrigin, rayDirectionY)
 
-    const intersect1 = raycasterZ.intersectObjects(intersectObjectsZ)
-    const intersect2 = raycasterY.intersectObjects(intersectObjectsY)
-    const intersect3 = raycasterX.intersectObjects(intersectObjectsX)
+    const intersectZ = raycasterZ.intersectObjects(intersectObjectsZ)
+    const intersectY = raycasterY.intersectObjects(intersectObjectsY)
+    const intersectX = raycasterX.intersectObjects(intersectObjectsX)
 
-    for(const intersect of intersect1){
+    for(const intersect of intersectZ){
         mousePositionZ()
         cameraPosition.z = updatePositionZ
         cast = true
     }
 
-    for(const intersect of intersect3){
+    for(const intersect of intersectX){
         mousePositionX()
         cameraPosition.x = updatePositionX
         cast = true
@@ -219,7 +219,7 @@ const tick = () =>
         //default camera movement = y axis
         mousePositionY()
         cameraPosition.y = updatePositionY
-        for(const intersect of intersect2){
+        for(const intersect of intersectY){
             mouseRotationY()
             cameraRotation.y = updateRotationY*(Math.PI*0.092)
         }
