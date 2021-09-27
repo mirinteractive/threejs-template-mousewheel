@@ -167,11 +167,11 @@ window.addEventListener('mousemove', (event) => {
  * Raycaster
  */
 const raycasterZ = new THREE.Raycaster()
-const rayDirectionZ = new THREE.Vector3(0,-1,0)
+const rayDirectionZ = new THREE.Vector3(1,-1,1)
 rayDirectionZ.normalize()
 
 const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,-1,-5)
+const rayDirectionY = new THREE.Vector3(0,-1,-0.5)
 rayDirectionY.normalize()
 
 const intersectObjectsZ = [plane1]
@@ -191,21 +191,14 @@ const tick = () =>
 
     //ToDo:
     //ray near far & ray direction 맞게 설정해주기
-    raycasterZ.set(rayOrigin, rayDirectionZ, 0, 1)
-    raycasterY.set(rayOrigin, rayDirectionY, 0, 1)
+    raycasterZ.set(rayOrigin, rayDirectionZ)
+    raycasterY.set(rayOrigin, rayDirectionY)
 
-    const intersect1 = raycasterZ.intersectObject(plane1)
-    const intersect2 = raycasterY.intersectObject(plane2)
-    const intersect3 = raycasterZ.intersectObject(plane3)
+    const intersect1 = raycasterZ.intersectObjects(intersectObjectsZ)
+    const intersect2 = raycasterY.intersectObjects(intersectObjectsY)
 
     //camera movement to z axis at specific direction
     for(const intersect of intersect1){
-        mousePositionZ()
-        cameraPosition.z = updatePositionZ
-        cast = true
-    }
-
-    for(const intersect of intersect3){
         mousePositionZ()
         cameraPosition.z = updatePositionZ
         cast = true
