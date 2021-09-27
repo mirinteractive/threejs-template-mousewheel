@@ -57,15 +57,15 @@ scene.add(camera)
   * Test scene
   * E5D352 EE6C4D
   */
- const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#662C91'}))
- plane1.position.set(0, -1, -10)
+ const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 30), new THREE.MeshBasicMaterial({color: '#C9CBA3'}))
+ plane1.position.set(0, -1, 0)
  plane1.rotation.set(-Math.PI*0.5, 0, 0)
 
- const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 30), new THREE.MeshBasicMaterial({color: '#537D8D'}))
- plane2.position.set(0, -15, -35)
+ const plane2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#FFE1A8'}))
+ plane2.position.set(0, -10, -25)
 
- const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(sizes.width, 60), new THREE.MeshBasicMaterial({color: '#D9E76C'}))
- plane3.position.set(0, -40, -4)
+ const plane3 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
+ plane3.position.set(-15, -20, -15)
  plane3.rotation.set(-Math.PI*0.5, 0, 0)
 
  scene.add(plane1, plane2, plane3)
@@ -171,7 +171,7 @@ const rayDirectionZ = new THREE.Vector3(0.1,-1,0.1)
 rayDirectionZ.normalize()
 
 const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,-1,-0.5)
+const rayDirectionY = new THREE.Vector3(0,-1,-5)
 rayDirectionY.normalize()
 
 const intersectObjectsZ = [plane1]
