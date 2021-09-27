@@ -55,20 +55,32 @@ scene.add(camera)
 
  /**
   * Test scene
-  * E5D352 EE6C4D
+  *  EE6C4D
   */
  const planeTop1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 30), new THREE.MeshBasicMaterial({color: '#C9CBA3'}))
- planeTop1.position.set(0, -1, 0)
  planeTop1.rotation.set(-Math.PI*0.5, 0, 0)
+ planeTop1.position.set(0, -1, 0)
 
  const planeElevation1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#FFE1A8'}))
  planeElevation1.position.set(0, -10, -25)
 
  const planeBottom1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
- planeBottom1.position.set(-10, -20, -15)
  planeBottom1.rotation.set(-Math.PI*0.5, 0, 0)
 
- scene.add(planeTop1, planeElevation1, planeBottom1)
+ const planeBottom2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#EE6C4D'}))
+ planeBottom2.rotation.set(-Math.PI*0.5, 0, 0)
+ planeBottom2.position.set(-15, 0, 0)
+ planeBottom2.name = 'planeBottom2'
+
+ const planeBottom3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#E26D5C'}))
+ planeBottom3.rotation.set(-Math.PI*0.5, 0, 0)
+ planeBottom3.position.set(-15, 0, 15)
+
+ const groupBottom = new THREE.Group()
+ groupBottom.position.set(-10, -20, -15)
+ groupBottom.add(planeBottom1, planeBottom2, planeBottom3)
+
+ scene.add(planeTop1, planeElevation1, groupBottom)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -178,9 +190,9 @@ const raycasterX = new THREE.Raycaster()
 const rayDirectionX = new THREE.Vector3(0.1,-1,0.1)
 rayDirectionX.normalize()
 
-const intersectObjectsZ = [planeTop1]
+const intersectObjectsZ = [planeTop1, planeBottom3]
 const intersectObjectsY = [planeElevation1]
-const intersectObjectsX = [planeBottom1]
+const intersectObjectsX = [planeBottom1, planeBottom2]
 
 /**
  * Animate
@@ -213,6 +225,11 @@ const tick = () =>
         mousePositionX()
         cameraPosition.x = updatePositionX
         cast = true
+        if(intersect.object.name === 'planeBottom2'){
+            mouseRotationY()
+            cameraRotation.y = updatePositionY*Math.PI
+            cameraPosition.x = updatePositionX
+        }
     }
 
     if(cast != true) { 
