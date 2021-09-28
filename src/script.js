@@ -57,32 +57,33 @@ scene.add(camera)
   * Test scene
   *  EE6C4D
   */
- const planeTop1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
- planeTop1.rotation.set(-Math.PI*0.5, 0, 0)
- planeTop1.position.set(0, -1, 0)
+ const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+ planeZ1.rotation.set(-Math.PI*0.5, 0, 0)
+ planeZ1.position.set(0, -1, 0)
 
- const planeElevation1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
- planeElevation1.position.set(0, -10, -30)
- planeElevation1.name = 'planeElevation1'
+ const planeY1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
+ planeY1.position.set(0, -10, -30)
+ planeY1.name = 'planeY1'
 
- const planeBottom1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
- planeBottom1.rotation.set(-Math.PI*0.5, 0, 0)
- planeBottom1.name = 'planeBottom1'
+ const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
+ planeR1.rotation.set(-Math.PI*0.5, 0, 0)
+ planeR1.name = 'planeR1'
 
- const planeBottom2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeBottom2.rotation.set(-Math.PI*0.5, 0, 0)
- planeBottom2.position.set(-5, 0, -10)
- planeBottom2.name = 'planeBottom2'
+ const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeX1.rotation.set(-Math.PI*0.5, 0, 0)
+ planeX1.position.set(-5, 0, -10)
+ planeX1.name = 'planeX1'
 
- const planeBottom3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
- planeBottom3.rotation.set(-Math.PI*0.5, 0, 0)
- planeBottom3.position.set(-15, 0, 15)
+ const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+ planeR2.rotation.set(-Math.PI*0.5, 0, 0)
+ planeR2.position.set(-20, 0, -5)
+ planeR2.name = 'planeR2'
 
  const groupBottom = new THREE.Group()
  groupBottom.position.set(0, -1, -15)
- groupBottom.add(planeBottom1, planeBottom2, planeBottom3)
+ groupBottom.add(planeR1, planeX1, planeR2)
 
- scene.add(planeTop1, planeElevation1, groupBottom)
+ scene.add(planeZ1, planeY1, groupBottom)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -90,12 +91,12 @@ const matcapTexture3 = textureLoader.load('/textures/matcaps/3.png')
 const matcapTexture4 = textureLoader.load('/textures/matcaps/4.png')
 
 const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45)
-for (let i=0; i<300; i++) {
+for (let i=0; i<100; i++) {
     const donut = new THREE.Mesh(donutGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture3}))
 
-    donut.position.x = (Math.random() - 0.5) * -60
-    donut.position.y = (Math.random() - 0.5) * 30
-    donut.position.z = (Math.random() - 0.5) * 30
+    donut.position.x = (Math.random() - 0.5) * 50 - 10
+    donut.position.y = (Math.random() - 0.5) * 5 + 1
+    donut.position.z = (Math.random() - 0.5) * 50 - 10
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
@@ -107,12 +108,12 @@ for (let i=0; i<300; i++) {
 }
 
 const tetraGeometry = new THREE.TetrahedronGeometry(1, 0)
-for (let i=0; i<300; i++) {
+for (let i=0; i<100; i++) {
     const tetra = new THREE.Mesh(tetraGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture4}))
 
-    tetra.position.x = (Math.random() - 0.5) * -60
-    tetra.position.y = (Math.random() - 0.5) * 30
-    tetra.position.z = (Math.random() - 0.5) * 30
+    tetra.position.x = (Math.random() - 0.5) * 50 - 10
+    tetra.position.y = (Math.random() - 0.5) * 5 + 1
+    tetra.position.z = (Math.random() - 0.5) * 50 - 10
 
     tetra.rotation.x = Math.random() * Math.PI
     tetra.rotation.y = Math.random() * Math.PI
@@ -195,9 +196,9 @@ const rayDirectionX = new THREE.Vector3(0,-1,0)
 rayDirectionX.normalize()
 // raycasterX.far = 10
 
-const intersectObjectsZ = [planeTop1, planeBottom1, planeBottom3]
-const intersectObjectsY = [planeElevation1]
-const intersectObjectsX = [planeBottom2]
+const intersectObjectsZ = [planeZ1, planeR1]
+const intersectObjectsY = [planeY1]
+const intersectObjectsX = [planeX1, planeR2]
 
 /**
  * Animate
@@ -224,25 +225,26 @@ const tick = () =>
         mousePositionZ()
         cameraPosition.z = updatePositionZ
         // cast = true
-        if(intersect.object.name === 'planeBottom1'){
+        if(intersect.object.name === 'planeR1'){
             mouseRotationY()
-            cameraRotation.y = updateRotationY*-(Math.PI*0.05)
-            console.log('hgeehehehe');
+            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
         }
     }
 
     for(const intersect of intersectX){
         mousePositionX()
         cameraPosition.x = updatePositionX
-        // cast = true
-        console.log('happy');
+        if(intersect.object.name === 'planeR2'){
+            mouseRotationY()
+            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
+        }
     }
 
     // if(cast != true) { 
     //     for(const intersect of intersectY){
     //         mousePositionY()
     //         cameraPosition.y = updatePositionY
-    //         if(intersect.object.name === 'planeElevation1'){
+    //         if(intersect.object.name === 'planeY1'){
     //             mouseRotationY()
     //             cameraRotation.y = updateRotationY*-(Math.PI*0.08)
     //             mousePositionX()
