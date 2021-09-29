@@ -16,5 +16,6 @@ body
     top: 0;
     left: 0;
     outline: none;
-    background: linear-gradient(#11e8bb, #8200c9);
+    /* background: linear-gradient(#11e8bb, #8200c9); */
+    background: #8b9dc3;
 }
