@@ -44,7 +44,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0.25, - 0.25, 1)
+camera.position.set(0, - 0.25, 0)
 scene.add(camera)
 
 // gui.add(camera.position, 'y').min(0).max(10)
@@ -76,6 +76,11 @@ scene.add(camera)
  planeX1.position.set(-5, 0, -10)
  planeX1.name = 'planeX1'
 
+ const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeX2.rotation.set(-Math.PI*0.5, 0, 0)
+ planeX2.position.set(-15, 0, 35)
+ planeX2.name = 'planeX2'
+
  const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
  planeR1.rotation.set(-Math.PI*0.5, 0, 0)
  planeR1.name = 'planeR1'
@@ -85,9 +90,14 @@ scene.add(camera)
  planeR2.position.set(-20, 0, -5)
  planeR2.name = 'planeR2'
 
+ const planeR3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+ planeR3.rotation.set(-Math.PI*0.5, 0, 0)
+ planeR3.position.set(-30, 0, 15)
+ planeR3.name = 'planeR3'
+
  const groupBottom = new THREE.Group()
  groupBottom.position.set(0, -1, -15)
- groupBottom.add(planeR1, planeX1, planeR2, planeZ2)
+ groupBottom.add(planeR1, planeX1, planeX2, planeR2, planeZ2, planeR3)
 
  scene.add(planeZ1, planeY1, groupBottom)
 
@@ -203,7 +213,7 @@ const rayDirectionY = new THREE.Vector3(0,0,-1)
 rayDirectionY.normalize()
 // raycasterY.far = 10
 
-const intersectObjects = [planeZ1, planeR1, planeX1, planeR2, planeZ2]
+const intersectObjects = [planeZ1, planeR1, planeX1, planeX2, planeR2, planeZ2, planeR3]
 const intersectObjectsY = [planeY1]
 
 /**
@@ -253,7 +263,13 @@ const tick = () =>
             mousePositionZ()
             updatePositionZ *= -0.1+1
             cameraPosition.z = updatePositionZ
-            console.log('yay');
+        }
+        if(intersect.object.name === 'planeR3'){
+            mousePositionX()
+            cameraPosition.x = updatePositionX
+            mouseRotationY()
+            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
+            
         }
     }
 
