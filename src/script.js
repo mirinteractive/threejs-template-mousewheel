@@ -249,6 +249,12 @@ const tick = () =>
             mouseRotationY()
             cameraRotation.y = -(updateRotationY*Math.PI*0.05)
         }
+        if(intersect.object.name === 'planeZ2'){
+            mousePositionZ()
+            updatePositionZ *= -0.1+1
+            cameraPosition.z = updatePositionZ
+            console.log('yay');
+        }
     }
 
     // if(cast != true) { 
