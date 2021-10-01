@@ -278,6 +278,7 @@ const tick = () =>
         if(intersect.object.name === 'planeZ3'){
             cameraPosition.set(0, - 0.25, 0)
             cameraRotation.set(0, 0, 0)
+            console.log('jkerluleir;');
         }
     }
 
@@ -301,8 +302,8 @@ const tick = () =>
         }
     }
 
-    scene.add(new THREE.ArrowHelper(raycasterVertical.ray.direction, raycasterVertical.ray.origin, 300, 0xff0000) );
-    scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
+    // scene.add(new THREE.ArrowHelper(raycasterVertical.ray.direction, raycasterVertical.ray.origin, 300, 0xff0000) );
+    // scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
 
     // Render
     // controls.update()
