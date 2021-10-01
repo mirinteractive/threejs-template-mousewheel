@@ -67,15 +67,19 @@ scene.add(camera)
  planeZ2.position.set(-55, -5, 0)
  planeZ2.name = 'planeZ2'
 
+ const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 1), new THREE.MeshBasicMaterial({color: '#000000'}))
+ planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
+ planeZ3.position.set(-55, -50, 10.5)
+ planeZ3.name = 'planeZ3'
+
  const planeY1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
  planeY1.rotation.set(0, -Math.PI*0.5, 0)
  planeY1.position.set(-20, -10, -20)
  planeY1.name = 'planeY1'
 
- const planeY2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
- planeY2.rotation.set(0, Math.PI*0.5, 0)
- planeY2.position.set(-55, -10, 0)
- planeY2.name = 'planeY2'
+ const planeY2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#000000'}))
+ planeY2.rotation.set(0, Math.PI, 0)
+ planeY2.position.set(-50, -10, -3)
 
  const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
@@ -98,7 +102,7 @@ scene.add(camera)
 
  const groupBottom = new THREE.Group()
  groupBottom.position.set(0, -1, -15)
- groupBottom.add(planeR1, planeX1, planeX2, planeR2, planeZ2)
+ groupBottom.add(planeR1, planeX1, planeX2, planeR2, planeZ2, planeZ3)
 
  scene.add(planeZ1, planeY1, planeY2, groupBottom)
 
@@ -210,12 +214,12 @@ rayDirectionVertical.normalize()
 // raycasterZ.far = 10
 
 const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,0,0)
+const rayDirectionY = new THREE.Vector3(0,0,1)
 rayDirectionY.normalize()
 // raycasterY.far = 10
 
-const intersectObjects = [planeZ1, planeR1, planeR2, planeX1, planeX2, planeZ2]
-const intersectObjectsY = [planeY1, planeY2]
+const intersectVerticalObjects = [planeZ1, planeR1, planeR2, planeX1, planeX2, planeZ2, planeZ3]
+const intersectObjectsY = [planeY1]
 
 /**
  * Animate
@@ -233,10 +237,10 @@ const tick = () =>
     raycasterVertical.set(rayOrigin, rayDirectionVertical)
     raycasterY.set(rayOrigin, rayDirectionY)
 
-    const intersects = raycasterVertical.intersectObjects(intersectObjects)
+    const intersectsVertical = raycasterVertical.intersectObjects(intersectVerticalObjects)
     const intersectY = raycasterY.intersectObjects(intersectObjectsY)
 
-    for(const intersect of intersects){
+    for(const intersect of intersectsVertical){
         cast = true
         // mousePositionZ()
         // cameraPosition.z = updatePositionZ
@@ -251,7 +255,6 @@ const tick = () =>
             cameraRotation.y = -(updateRotationY*Math.PI*0.05)
             // mousePositionX()
             // cameraPosition.x = updatePositionX
-            console.log('kejrml');
         }
         if(intersect.object.name === 'planeX1'){
             mousePositionX()
@@ -272,6 +275,10 @@ const tick = () =>
             updatePositionZ *= -0.1+1
             cameraPosition.z = updatePositionZ
         }
+        if(intersect.object.name === 'planeZ3'){
+            cameraPosition.set(0, - 0.25, 0)
+            cameraRotation.set(0, 0, 0)
+        }
     }
 
     if(cast != true) { 
@@ -281,7 +288,6 @@ const tick = () =>
             if(intersect.name === 'planeY1'){
                 mousePositionX()
                 cameraPosition.x = updatePositionX
-                console.log('eeo');
             }
             // if(intersect.name === 'planeY2'){
             //     camera.position.set(0, - 0.25, 0)
