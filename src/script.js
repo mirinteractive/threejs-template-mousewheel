@@ -188,11 +188,11 @@ const tick = () =>
     let cameraRotation = camera.rotation
     
     mousePositionUpdate()
-    // console.log(mousePosition);
     if(updatePosition <= 0) {
         if(mousePosition < 0) {
             cameraPosition.z += updatePosition*0.01
-        } else if(0 <= mousePosition) {
+        }
+        if(0 <= mousePosition) {
             cameraPosition.z -= updatePosition*0.01
         }
     }
