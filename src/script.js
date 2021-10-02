@@ -161,11 +161,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 window.addEventListener("wheel", onMouseWheel)
 
 let mousePosition = 0
-let updatePositionZ = 0
-let updatePositionY = 0
-let updatePositionX = 0
-let updateRotationY = 0
-let testZ = 0
+let updatePosition = 0
 
 function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
@@ -173,30 +169,8 @@ function onMouseWheel(event) {
 
 const mouse = new THREE.Vector2()
 
-// ToDo:
-// 이 더러운것들 생성자나 함수 하나만 써서 묶어주기...
-function mousePositionZ() {
-    updatePositionZ += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionTestZ() {
-    testZ += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionY() {
-    updatePositionY += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionX() {
-    updatePositionX += mousePosition
-    mousePosition *= 0.9
-}
-
-function mouseRotationY() {
-    updateRotationY += mousePosition
+function mousePositionUpdate() {
+    updatePosition += mousePosition
     mousePosition *= 0.9
 }
 
@@ -212,9 +186,16 @@ const tick = () =>
 {
     let cameraPosition = camera.position
     let cameraRotation = camera.rotation
-
-    mousePositionZ()
-    cameraPosition.z = updatePositionZ
+    
+    mousePositionUpdate()
+    if(updatePosition <= 0) {
+        if(mousePosition < 0) {
+            cameraPosition.z += updatePosition*0.01
+        }
+        if(0 <= mousePosition) {
+            cameraPosition.z -= updatePosition*0.01
+        }
+    }
 
     // Render
     // controls.update()
@@ -225,3 +206,5 @@ const tick = () =>
 }
 
 tick()
+
+
