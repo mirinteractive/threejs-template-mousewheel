@@ -206,22 +206,6 @@ window.addEventListener('mousemove', (event) => {
 })
 
 /**
- * Raycaster
- */
-const raycasterVertical = new THREE.Raycaster()
-const rayDirectionVertical = new THREE.Vector3(0,-1,0)
-rayDirectionVertical.normalize()
-// raycasterZ.far = 10
-
-const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,0,1)
-rayDirectionY.normalize()
-// raycasterY.far = 10
-
-const intersectVerticalObjects = [planeZ1, planeR1, planeR2, planeX1, planeX2, planeZ2, planeZ3]
-const intersectObjectsY = [planeY1]
-
-/**
  * Animate
  */
 const tick = () =>
@@ -229,81 +213,8 @@ const tick = () =>
     let cameraPosition = camera.position
     let cameraRotation = camera.rotation
 
-    //Raycaster
-    let cast = false
-    const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
-
-    //ToDo:
-    raycasterVertical.set(rayOrigin, rayDirectionVertical)
-    raycasterY.set(rayOrigin, rayDirectionY)
-
-    const intersectsVertical = raycasterVertical.intersectObjects(intersectVerticalObjects)
-    const intersectY = raycasterY.intersectObjects(intersectObjectsY)
-
-    for(const intersect of intersectsVertical){
-        cast = true
-        // mousePositionZ()
-        // cameraPosition.z = updatePositionZ
-        if(intersect.object.name === 'planeZ1'){
-            mousePositionZ()
-            cameraPosition.z = updatePositionZ
-        }
-        if(intersect.object.name === 'planeR1'){
-            mousePositionZ()
-            cameraPosition.z = updatePositionZ
-            mouseRotationY()
-            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
-            // mousePositionX()
-            // cameraPosition.x = updatePositionX
-        }
-        if(intersect.object.name === 'planeX1'){
-            mousePositionX()
-            cameraPosition.x = updatePositionX
-        }
-        if(intersect.object.name === 'planeX2'){
-            mousePositionX()
-            cameraPosition.x = updatePositionX
-        }
-        if(intersect.object.name === 'planeR2'){
-            mousePositionX()
-            cameraPosition.x = updatePositionX
-            mouseRotationY()
-            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
-        }
-        if(intersect.object.name === 'planeZ2'){
-            mousePositionZ()
-            updatePositionZ *= -0.1+1
-            cameraPosition.z = updatePositionZ
-        }
-        if(intersect.object.name === 'planeZ3'){
-            cameraPosition.set(0, - 0.25, 0)
-            cameraRotation.set(0, 0, 0)
-            console.log('jkerluleir;');
-        }
-    }
-
-    if(cast != true) { 
-        mousePositionY()
-        cameraPosition.y = updatePositionY
-        for(const intersect of intersectObjectsY){
-            if(intersect.name === 'planeY1'){
-                mousePositionX()
-                cameraPosition.x = updatePositionX
-            }
-            // if(intersect.name === 'planeY2'){
-            //     camera.position.set(0, - 0.25, 0)
-            // }
-        //     if(intersect.object.name === 'planeElevation1'){
-        //         mouseRotationY()
-        //         cameraRotation.y = updateRotationY*-(Math.PI*0.08)
-        //         mousePositionX()
-        //         cameraPosition.x = updatePositionX*(Math.PI*0.1)
-        //     }
-        }
-    }
-
-    // scene.add(new THREE.ArrowHelper(raycasterVertical.ray.direction, raycasterVertical.ray.origin, 300, 0xff0000) );
-    // scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
+    mousePositionZ()
+    cameraPosition.z = updatePositionZ
 
     // Render
     // controls.update()
