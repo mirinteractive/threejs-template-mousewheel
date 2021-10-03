@@ -188,16 +188,15 @@ function cameraPositionUpdate() {
     //     }
     // } 
     // console.log(updatePosition);
-    if( 0 < updatePosition < 25) {
+    if( updatePosition < 25) {
         cameraPosition.z += mousePosition
     } 
-    else if ( 25 < updatePosition < 30) {
+    else if ( updatePosition < 30) {
         cameraPosition.x -= mousePosition
-        // cameraRotation.y -= mousePosition*Math.PI*0.5
+        cameraRotation.y -= mousePosition*Math.PI*0.5
     }
-    else if ( 30 < updatePosition < 50) {
-        // cameraPosition.x -= mousePosition
-        console.log(updatePosition);
+    else if ( updatePosition < 50) {
+        cameraPosition.x -= mousePosition
     }
 }
 
