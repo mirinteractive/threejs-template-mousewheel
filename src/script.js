@@ -45,6 +45,7 @@ window.addEventListener('resize', () =>
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0, - 0.25, 0)
+camera.rotation.set(0, Math.PI, 0)
 scene.add(camera)
 
 // gui.add(camera.position, 'y').min(0).max(10)
@@ -188,10 +189,15 @@ const tick = () =>
     let cameraRotation = camera.rotation
     
     mousePositionUpdate()
-    // console.log(mousePosition);
-    if(updatePosition <= 0) {
-        cameraPosition.z = updatePosition
-    }
+    // console.log(updatePosition);
+    if( 0 <= updatePosition) {
+        if(updatePosition < 10) {
+            cameraPosition.z = updatePosition
+        }
+    } 
+    // if (10 <= updatePosition < 20) {
+    //     console.log('dfghjkls');
+    // }
 
     // Render
     // controls.update()
