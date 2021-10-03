@@ -44,7 +44,8 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, - 0.25, 0)
+camera.position.set(0, 1, 0)
+// camera.rotation.set(0, Math.PI, 0)
 scene.add(camera)
 
 // gui.add(camera.position, 'y').min(0).max(10)
@@ -57,49 +58,46 @@ scene.add(camera)
   * Test scene
   *  EE6C4D
   */
- const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+ const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
  planeZ1.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ1.position.set(0, -1, 0)
- planeZ1.name = 'planeZ1'
+ planeZ1.position.set(0, 0, 5)
 
- const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ2.position.set(-30, 0, 0)
- planeZ2.name = 'planeZ2'
+//  const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+//  planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeZ2.position.set(-55, -5, 0)
+//  planeZ2.name = 'planeZ2'
+
+//  const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 1), new THREE.MeshBasicMaterial({color: '#000000'}))
+//  planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeZ3.position.set(-55, -50, 10.5)
+//  planeZ3.name = 'planeZ3'
 
  const planeY1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
- planeY1.position.set(0, -10, -30)
- planeY1.name = 'planeY1'
+ planeY1.rotation.set(0, -Math.PI*0.5, 0)
+ planeY1.position.set(-20, -10, -20)
 
- const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ const planeY2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#000000'}))
+ planeY2.rotation.set(0, Math.PI, 0)
+ planeY2.position.set(-50, -10, -3)
+
+ const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
- planeX1.position.set(-5, 0, -10)
- planeX1.name = 'planeX1'
+ planeX1.position.set(-10, 0, 15)
 
- const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeX2.rotation.set(-Math.PI*0.5, 0, 0)
- planeX2.position.set(-15, 0, 35)
- planeX2.name = 'planeX2'
+//  const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+//  planeX2.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeX2.position.set(-30, -5, -5)
+//  planeX2.name = 'planeX2'
 
- const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
- planeR1.rotation.set(-Math.PI*0.5, 0, 0)
- planeR1.name = 'planeR1'
+const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
+planeR1.rotation.set(-Math.PI*0.5, 0, 0)
+planeR1.position.set(0, 0, 15)
 
- const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
- planeR2.rotation.set(-Math.PI*0.5, 0, 0)
- planeR2.position.set(-20, 0, -5)
- planeR2.name = 'planeR2'
+const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+planeR2.rotation.set(-Math.PI*0.5, 0, 0)
+planeR2.position.set(-20, 0, 15)
 
- const planeR3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
- planeR3.rotation.set(-Math.PI*0.5, 0, 0)
- planeR3.position.set(-30, 0, 15)
- planeR3.name = 'planeR3'
-
- const groupBottom = new THREE.Group()
- groupBottom.position.set(0, -1, -15)
- groupBottom.add(planeR1, planeX1, planeX2, planeR2, planeZ2, planeR3)
-
- scene.add(planeZ1, planeY1, groupBottom)
+ scene.add(planeX1, planeZ1, planeY1, planeY2, planeR1, planeR2)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -156,11 +154,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 window.addEventListener("wheel", onMouseWheel)
 
 let mousePosition = 0
-let updatePositionZ = 0
-let updatePositionY = 0
-let updatePositionX = 0
-let updateRotationY = 0
-let testZ = 0
+let updatePosition = 0
 
 function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
@@ -168,30 +162,8 @@ function onMouseWheel(event) {
 
 const mouse = new THREE.Vector2()
 
-// ToDo:
-// 이 더러운것들 생성자나 함수 하나만 써서 묶어주기...
-function mousePositionZ() {
-    updatePositionZ += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionTestZ() {
-    testZ += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionY() {
-    updatePositionY += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionX() {
-    updatePositionX += mousePosition
-    mousePosition *= 0.9
-}
-
-function mouseRotationY() {
-    updateRotationY += mousePosition
+function mousePositionUpdate() {
+    updatePosition += mousePosition
     mousePosition *= 0.9
 }
 
@@ -201,93 +173,33 @@ window.addEventListener('mousemove', (event) => {
 })
 
 /**
- * Raycaster
- */
-const raycasterVertical = new THREE.Raycaster()
-const rayDirectionVertical = new THREE.Vector3(0,-1,0)
-rayDirectionVertical.normalize()
-// raycasterZ.far = 10
-
-const raycasterY = new THREE.Raycaster()
-const rayDirectionY = new THREE.Vector3(0,0,-1)
-rayDirectionY.normalize()
-// raycasterY.far = 10
-
-const intersectObjects = [planeZ1, planeR1, planeX1, planeX2, planeR2, planeZ2, planeR3]
-const intersectObjectsY = [planeY1]
-
-/**
  * Animate
- */
-const tick = () =>
-{
-    let cameraPosition = camera.position
-    let cameraRotation = camera.rotation
+ */    
+let cameraPosition = camera.position
+let cameraRotation = camera.rotation
 
-    //Raycaster
-    let cast = false
-    const rayOrigin = new THREE.Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z)
-
-    //ToDo:
-    raycasterVertical.set(rayOrigin, rayDirectionVertical)
-    raycasterY.set(rayOrigin, rayDirectionY)
-
-    const intersects = raycasterVertical.intersectObjects(intersectObjects)
-    const intersectY = raycasterY.intersectObjects(intersectObjectsY)
-
-    for(const intersect of intersects){
-        // cast = true
-        // mousePositionZ()
-        // cameraPosition.z = updatePositionZ
-        if(intersect.object.name === 'planeZ1'){
-            mousePositionZ()
-            cameraPosition.z = updatePositionZ
+function cameraPositionUpdate() {
+    if(0 <= updatePosition) {
+        if( updatePosition < 10) {
+            cameraRotation.set(0, Math.PI, 0)
+            cameraPosition.z += mousePosition
+        } 
+        else if ( updatePosition < 15) {
+            cameraPosition.x -= mousePosition
+            cameraPosition.z += mousePosition
+            cameraRotation.y -= mousePosition*Math.PI*0.1
         }
-        if(intersect.object.name === 'planeR1'){
-            mousePositionZ()
-            cameraPosition.z = updatePositionZ
-            mouseRotationY()
-            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
-        }
-        if(intersect.object.name === 'planeX1'){
-            mousePositionX()
-            cameraPosition.x = updatePositionX
-        }
-        if(intersect.object.name === 'planeR2'){
-            mousePositionX()
-            cameraPosition.x = updatePositionX
-            mouseRotationY()
-            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
-        }
-        if(intersect.object.name === 'planeZ2'){
-            mousePositionZ()
-            updatePositionZ *= -0.1+1
-            cameraPosition.z = updatePositionZ
-        }
-        if(intersect.object.name === 'planeR3'){
-            mousePositionX()
-            cameraPosition.x = updatePositionX
-            mouseRotationY()
-            cameraRotation.y = -(updateRotationY*Math.PI*0.05)
-            
+        else if ( updatePosition < 30) {
+            cameraRotation.set(0, Math.PI*0.55, 0)
+            cameraPosition.x -= mousePosition
         }
     }
+}
 
-    // if(cast != true) { 
-    //     for(const intersect of intersectY){
-    //         mousePositionY()
-    //         cameraPosition.y = updatePositionY
-    //         if(intersect.object.name === 'planeY1'){
-    //             mouseRotationY()
-    //             cameraRotation.y = updateRotationY*-(Math.PI*0.08)
-    //             mousePositionX()
-    //             cameraPosition.x = updatePositionX*(Math.PI*0.1)
-    //         }
-    //     }
-    // }
-
-    scene.add(new THREE.ArrowHelper(raycasterVertical.ray.direction, raycasterVertical.ray.origin, 300, 0xff0000) );
-    // scene.add(new THREE.ArrowHelper(raycasterY.ray.direction, raycasterY.ray.origin, 300, 0x0000ff) );
+const tick = () =>
+{
+    mousePositionUpdate()
+    cameraPositionUpdate()
 
     // Render
     // controls.update()
@@ -298,3 +210,5 @@ const tick = () =>
 }
 
 tick()
+
+
