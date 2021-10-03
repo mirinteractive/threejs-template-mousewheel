@@ -172,7 +172,7 @@ window.addEventListener('mousemove', (event) => {
     mouse.y = -(event.clientY / sizes.height) *2+1 //invert the value
 })
 
-/**
+/** 
  * Animate
  */    
 let cameraPosition = camera.position
