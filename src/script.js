@@ -193,7 +193,7 @@ function cameraPositionUpdate() {
     } 
     else if ( 25 <= updatePosition < 30) {
         cameraPosition.x -= mousePosition
-        cameraRotation.y -= mousePosition
+        cameraRotation.y -= mousePosition*Math.PI*0.5
     }
 }
 
