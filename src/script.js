@@ -44,7 +44,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, - 0.25, 0)
+camera.position.set(0, 1, 0)
 camera.rotation.set(0, Math.PI, 0)
 scene.add(camera)
 
@@ -60,52 +60,47 @@ scene.add(camera)
   */
  const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
  planeZ1.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ1.position.set(0, -1, 0)
+ planeZ1.position.set(0, 0, 10)
  planeZ1.name = 'planeZ1'
 
- const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ2.position.set(-55, -5, 0)
- planeZ2.name = 'planeZ2'
+//  const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+//  planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeZ2.position.set(-55, -5, 0)
+//  planeZ2.name = 'planeZ2'
 
- const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 1), new THREE.MeshBasicMaterial({color: '#000000'}))
- planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ3.position.set(-55, -50, 10.5)
- planeZ3.name = 'planeZ3'
+//  const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 1), new THREE.MeshBasicMaterial({color: '#000000'}))
+//  planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeZ3.position.set(-55, -50, 10.5)
+//  planeZ3.name = 'planeZ3'
 
  const planeY1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
  planeY1.rotation.set(0, -Math.PI*0.5, 0)
  planeY1.position.set(-20, -10, -20)
- planeY1.name = 'planeY1'
 
  const planeY2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#000000'}))
  planeY2.rotation.set(0, Math.PI, 0)
  planeY2.position.set(-50, -10, -3)
 
- const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeX1.rotation.set(-Math.PI*0.5, 0, 0)
- planeX1.position.set(-5, 0, -10)
- planeX1.name = 'planeX1'
+//  const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+//  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeX1.position.set(-5, 0, -10)
+//  planeX1.name = 'planeX1'
 
- const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeX2.rotation.set(-Math.PI*0.5, 0, 0)
- planeX2.position.set(-30, -5, -5)
- planeX2.name = 'planeX2'
+//  const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+//  planeX2.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeX2.position.set(-30, -5, -5)
+//  planeX2.name = 'planeX2'
 
- const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
- planeR1.rotation.set(-Math.PI*0.5, 0, 0)
- planeR1.name = 'planeR1'
+const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
+planeR1.rotation.set(-Math.PI*0.5, 0, 0)
+planeR1.position.set(0, 0, 25)
 
- const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
- planeR2.rotation.set(-Math.PI*0.5, 0, 0)
- planeR2.position.set(-45, -5, -5)
- planeR2.name = 'planeR2'
+//  const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+//  planeR2.rotation.set(-Math.PI*0.5, 0, 0)
+//  planeR2.position.set(-45, -5, -5)
+//  planeR2.name = 'planeR2'
 
- const groupBottom = new THREE.Group()
- groupBottom.position.set(0, -1, -15)
- groupBottom.add(planeR1, planeX1, planeX2, planeR2, planeZ2, planeZ3)
-
- scene.add(planeZ1, planeY1, planeY2, groupBottom)
+ scene.add(planeZ1, planeY1, planeY2, planeR1)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -189,15 +184,20 @@ const tick = () =>
     let cameraRotation = camera.rotation
     
     mousePositionUpdate()
-    // console.log(updatePosition);
-    if( 0 <= updatePosition) {
-        if(updatePosition < 10) {
-            cameraPosition.z = updatePosition
-        }
+    // console.log(mousePosition);
+    // 나중에 뒤로 돌아가는게 잘 안되면 이거 써야할수도...
+    // if( 0 <= updatePosition) {
+    //     if(updatePosition < 10) {
+    //         cameraPosition.z = updatePosition
+    //     }
+    // } 
+    if( updatePosition < 25) {
+        cameraPosition.z += mousePosition
     } 
-    // if (10 <= updatePosition < 20) {
-    //     console.log('dfghjkls');
-    // }
+    else if ( 25 <= updatePosition < 30) {
+        cameraPosition.x -= mousePosition
+        cameraRotation.y -= mousePosition
+    }
 
     // Render
     // controls.update()
