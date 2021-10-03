@@ -45,7 +45,7 @@ window.addEventListener('resize', () =>
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0, 1, 0)
-camera.rotation.set(0, Math.PI, 0)
+// camera.rotation.set(0, Math.PI, 0)
 scene.add(camera)
 
 // gui.add(camera.position, 'y').min(0).max(10)
@@ -58,10 +58,9 @@ scene.add(camera)
   * Test scene
   *  EE6C4D
   */
- const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+ const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
  planeZ1.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ1.position.set(0, 0, 10)
- planeZ1.name = 'planeZ1'
+ planeZ1.position.set(0, 0, 5)
 
 //  const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
 //  planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
@@ -81,9 +80,9 @@ scene.add(camera)
  planeY2.rotation.set(0, Math.PI, 0)
  planeY2.position.set(-50, -10, -3)
 
- const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
- planeX1.position.set(-15, 0, 25)
+ planeX1.position.set(-10, 0, 15)
 
 //  const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
 //  planeX2.rotation.set(-Math.PI*0.5, 0, 0)
@@ -92,7 +91,7 @@ scene.add(camera)
 
 const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
 planeR1.rotation.set(-Math.PI*0.5, 0, 0)
-planeR1.position.set(0, 0, 25)
+planeR1.position.set(0, 0, 15)
 
 //  const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
 //  planeR2.rotation.set(-Math.PI*0.5, 0, 0)
@@ -182,14 +181,17 @@ let cameraRotation = camera.rotation
 
 function cameraPositionUpdate() {
     if(0 <= updatePosition) {
-        if( updatePosition < 25) {
+        if( updatePosition < 10) {
+            cameraRotation.set(0, Math.PI, 0)
             cameraPosition.z += mousePosition
         } 
-        else if ( updatePosition < 30) {
+        else if ( updatePosition < 15) {
             cameraPosition.x -= mousePosition
-            cameraRotation.y -= mousePosition*Math.PI*0.5
+            cameraPosition.z += mousePosition
+            cameraRotation.y -= mousePosition*Math.PI*0.1
         }
-        else if ( updatePosition < 50) {
+        else if ( updatePosition < 30) {
+            cameraRotation.set(0, Math.PI*0.5, 0)
             cameraPosition.x -= mousePosition
         }
     }
