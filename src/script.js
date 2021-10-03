@@ -181,22 +181,17 @@ let cameraPosition = camera.position
 let cameraRotation = camera.rotation
 
 function cameraPositionUpdate() {
-    // 나중에 뒤로 돌아가는게 잘 안되면 이거 써야할수도...
-    // if( 0 <= updatePosition) {
-    //     if(updatePosition < 10) {
-    //         cameraPosition.z = updatePosition
-    //     }
-    // } 
-    // console.log(updatePosition);
-    if( updatePosition < 25) {
-        cameraPosition.z += mousePosition
-    } 
-    else if ( updatePosition < 30) {
-        cameraPosition.x -= mousePosition
-        cameraRotation.y -= mousePosition*Math.PI*0.5
-    }
-    else if ( updatePosition < 50) {
-        cameraPosition.x -= mousePosition
+    if(0 <= updatePosition) {
+        if( updatePosition < 25) {
+            cameraPosition.z += mousePosition
+        } 
+        else if ( updatePosition < 30) {
+            cameraPosition.x -= mousePosition
+            cameraRotation.y -= mousePosition*Math.PI*0.5
+        }
+        else if ( updatePosition < 50) {
+            cameraPosition.x -= mousePosition
+        }
     }
 }
 
