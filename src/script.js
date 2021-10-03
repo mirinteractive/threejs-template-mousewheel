@@ -177,14 +177,11 @@ window.addEventListener('mousemove', (event) => {
 
 /**
  * Animate
- */
-const tick = () =>
-{
-    let cameraPosition = camera.position
-    let cameraRotation = camera.rotation
-    
-    mousePositionUpdate()
-    // console.log(mousePosition);
+ */    
+let cameraPosition = camera.position
+let cameraRotation = camera.rotation
+
+function cameraPositionUpdate() {
     // 나중에 뒤로 돌아가는게 잘 안되면 이거 써야할수도...
     // if( 0 <= updatePosition) {
     //     if(updatePosition < 10) {
@@ -198,6 +195,12 @@ const tick = () =>
         cameraPosition.x -= mousePosition
         cameraRotation.y -= mousePosition
     }
+}
+
+const tick = () =>
+{
+    mousePositionUpdate()
+    cameraPositionUpdate()
 
     // Render
     // controls.update()
