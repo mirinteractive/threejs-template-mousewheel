@@ -81,10 +81,9 @@ scene.add(camera)
  planeY2.rotation.set(0, Math.PI, 0)
  planeY2.position.set(-50, -10, -3)
 
-//  const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
-//  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
-//  planeX1.position.set(-5, 0, -10)
-//  planeX1.name = 'planeX1'
+ const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeX1.rotation.set(-Math.PI*0.5, 0, 0)
+ planeX1.position.set(-15, 0, 25)
 
 //  const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
 //  planeX2.rotation.set(-Math.PI*0.5, 0, 0)
@@ -100,7 +99,7 @@ planeR1.position.set(0, 0, 25)
 //  planeR2.position.set(-45, -5, -5)
 //  planeR2.name = 'planeR2'
 
- scene.add(planeZ1, planeY1, planeY2, planeR1)
+ scene.add(planeX1, planeZ1, planeY1, planeY2, planeR1)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -188,12 +187,17 @@ function cameraPositionUpdate() {
     //         cameraPosition.z = updatePosition
     //     }
     // } 
-    if( updatePosition < 25) {
+    // console.log(updatePosition);
+    if( 0 < updatePosition < 25) {
         cameraPosition.z += mousePosition
     } 
-    else if ( 25 <= updatePosition < 30) {
+    else if ( 25 < updatePosition < 30) {
         cameraPosition.x -= mousePosition
-        cameraRotation.y -= mousePosition*Math.PI*0.5
+        // cameraRotation.y -= mousePosition*Math.PI*0.5
+    }
+    else if ( 30 < updatePosition < 50) {
+        // cameraPosition.x -= mousePosition
+        console.log(updatePosition);
     }
 }
 
