@@ -93,12 +93,11 @@ const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBa
 planeR1.rotation.set(-Math.PI*0.5, 0, 0)
 planeR1.position.set(0, 0, 15)
 
-//  const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
-//  planeR2.rotation.set(-Math.PI*0.5, 0, 0)
-//  planeR2.position.set(-45, -5, -5)
-//  planeR2.name = 'planeR2'
+const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+planeR2.rotation.set(-Math.PI*0.5, 0, 0)
+planeR2.position.set(-20, 0, 15)
 
- scene.add(planeX1, planeZ1, planeY1, planeY2, planeR1)
+ scene.add(planeX1, planeZ1, planeY1, planeY2, planeR1, planeR2)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -191,7 +190,7 @@ function cameraPositionUpdate() {
             cameraRotation.y -= mousePosition*Math.PI*0.1
         }
         else if ( updatePosition < 30) {
-            cameraRotation.set(0, Math.PI*0.5, 0)
+            cameraRotation.set(0, Math.PI*0.55, 0)
             cameraPosition.x -= mousePosition
         }
     }
