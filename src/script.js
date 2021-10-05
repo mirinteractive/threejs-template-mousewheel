@@ -62,10 +62,9 @@ scene.add(camera)
  planeZ1.rotation.set(-Math.PI*0.5, 0, 0)
  planeZ1.position.set(0, 0, 5)
 
-//  const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
-//  planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
-//  planeZ2.position.set(-55, -5, 0)
-//  planeZ2.name = 'planeZ2'
+ const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
+ planeZ2.position.set(-20, 0, 25)
 
 //  const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 1), new THREE.MeshBasicMaterial({color: '#000000'}))
 //  planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
@@ -97,7 +96,7 @@ const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBa
 planeR2.rotation.set(-Math.PI*0.5, 0, 0)
 planeR2.position.set(-20, 0, 15)
 
- scene.add(planeX1, planeZ1, planeY1, planeY2, planeR1, planeR2)
+ scene.add(planeX1, planeZ1, planeZ2, planeY1, planeY2, planeR1, planeR2)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -167,6 +166,13 @@ function mousePositionUpdate() {
     mousePosition *= 0.9
 }
 
+function mousePositionReset() {
+    if (updatePosition < 0) {
+        updatePosition = 0
+        mousePosition = 0
+    }
+}
+
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX / sizes.width *2-1 //transfer values from -1 to +1
     mouse.y = -(event.clientY / sizes.height) *2+1 //invert the value
@@ -183,15 +189,20 @@ function cameraPositionUpdate() {
         if( updatePosition < 10) {
             cameraRotation.set(0, Math.PI, 0)
             cameraPosition.z += mousePosition
-        } 
-        else if ( updatePosition < 15) {
+        } else if ( updatePosition < 15) {
             cameraPosition.x -= mousePosition
             cameraPosition.z += mousePosition
             cameraRotation.y -= mousePosition*Math.PI*0.1
-        }
-        else if ( updatePosition < 30) {
+        } else if ( updatePosition < 25) {
             cameraRotation.set(0, Math.PI*0.55, 0)
             cameraPosition.x -= mousePosition
+        } else if ( updatePosition < 30 ) {
+            cameraPosition.x -= mousePosition
+            cameraPosition.z += mousePosition
+            cameraRotation.y += mousePosition*Math.PI*0.1
+        } else if ( updatePosition < 40 ) {
+            cameraRotation.set(0, Math.PI, 0)
+            cameraPosition.z += mousePosition
         }
     }
 }
@@ -199,6 +210,7 @@ function cameraPositionUpdate() {
 const tick = () =>
 {
     mousePositionUpdate()
+    mousePositionReset()
     cameraPositionUpdate()
 
     // Render
