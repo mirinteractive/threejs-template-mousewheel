@@ -83,15 +83,15 @@ const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBa
 planeR1.rotation.set(-Math.PI*0.5, 0, 0)
 planeR1.position.set(0, 0, 15)
 
-const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
 planeR2.rotation.set(-Math.PI*0.5, 0, 0)
 planeR2.position.set(-20, 0, 15)
 
-const planeR3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+const planeR3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
 planeR3.rotation.set(-Math.PI*0.5, 0, 0)
 planeR3.position.set(-20, -1, 35)
 
-const planeR4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+const planeR4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
 planeR4.rotation.set(-Math.PI*0.5, 0, 0)
 planeR4.position.set(-10, -1, 35)
 
@@ -189,11 +189,17 @@ function cameraPositionUpdate() {
             cameraRotation.set(0, Math.PI, 0)
             cameraPosition.z += mousePosition
         } else if ( updatePosition < 15) {
+            if (updatePosition < 11) {
+                cameraPosition.set(0, 1, 10)
+            }
             cameraPosition.x -= mousePosition
             cameraPosition.z += mousePosition
             cameraRotation.y -= mousePosition*Math.PI*0.1
         } else if ( updatePosition < 25) {
-            cameraRotation.set(0, Math.PI*0.55, 0)
+            if (updatePosition < 16) {
+                cameraRotation.set(0, Math.PI*0.55, 0)
+                cameraPosition.set(-5, 1, 15)
+            }
             cameraPosition.x -= mousePosition
         } else if ( updatePosition < 30 ) {
             cameraPosition.x -= mousePosition
