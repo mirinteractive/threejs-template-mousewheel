@@ -58,28 +58,19 @@ scene.add(camera)
   * Test scene
   *  EE6C4D
   */
- const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+ const planeZ1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
  planeZ1.rotation.set(-Math.PI*0.5, 0, 0)
  planeZ1.position.set(0, 0, 5)
 
  const planeZ2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
- planeZ2.rotation.set(-Math.PI*0.5, 0, 0)
- planeZ2.position.set(-20, 0, 25)
+ planeZ2.rotation.set(-Math.PI*0.5+0.1, 0, 0)
+ planeZ2.position.set(-20, -0.5, 25)
 
-//  const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 1), new THREE.MeshBasicMaterial({color: '#000000'}))
-//  planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
-//  planeZ3.position.set(-55, -50, 10.5)
-//  planeZ3.name = 'planeZ3'
+ const planeZ3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
+ planeZ3.position.set(-10, -1, 25)
 
- const planeY1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#3b5998'}))
- planeY1.rotation.set(0, -Math.PI*0.5, 0)
- planeY1.position.set(-20, -10, -20)
-
- const planeY2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 20), new THREE.MeshBasicMaterial({color: '#000000'}))
- planeY2.rotation.set(0, Math.PI, 0)
- planeY2.position.set(-50, -10, -3)
-
- const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
  planeX1.position.set(-10, 0, 15)
 
@@ -96,7 +87,15 @@ const planeR2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBa
 planeR2.rotation.set(-Math.PI*0.5, 0, 0)
 planeR2.position.set(-20, 0, 15)
 
- scene.add(planeX1, planeZ1, planeZ2, planeY1, planeY2, planeR1, planeR2)
+const planeR3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+planeR3.rotation.set(-Math.PI*0.5, 0, 0)
+planeR3.position.set(-20, -1, 35)
+
+const planeR4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
+planeR4.rotation.set(-Math.PI*0.5, 0, 0)
+planeR4.position.set(-10, -1, 35)
+
+ scene.add(planeX1, planeZ1, planeZ2, planeZ3, planeR1, planeR2, planeR3, planeR4)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -200,9 +199,21 @@ function cameraPositionUpdate() {
             cameraPosition.x -= mousePosition
             cameraPosition.z += mousePosition
             cameraRotation.y += mousePosition*Math.PI*0.1
-        } else if ( updatePosition < 40 ) {
+        } else if ( updatePosition < 45 ) {
             cameraRotation.set(0, Math.PI, 0)
             cameraPosition.z += mousePosition
+            cameraPosition.y -= mousePosition*0.1
+        } else if ( updatePosition < 50 ) {
+            cameraPosition.x += mousePosition
+            cameraPosition.z += mousePosition
+            cameraRotation.y += mousePosition*Math.PI*0.1
+        } else if ( updatePosition < 55 ) {
+            cameraPosition.x += mousePosition
+            cameraPosition.z -= mousePosition
+            cameraRotation.y += mousePosition*Math.PI*0.1
+        } else if ( updatePosition < 70 ) {
+            cameraRotation.set(0, Math.PI*0.01, 0)
+            cameraPosition.z -= mousePosition
         }
     }
 }
