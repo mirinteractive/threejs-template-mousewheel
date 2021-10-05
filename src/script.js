@@ -70,14 +70,21 @@ scene.add(camera)
  planeZ3.rotation.set(-Math.PI*0.5, 0, 0)
  planeZ3.position.set(-10, -1, 25)
 
+ const planeZ4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeZ4.rotation.set(-Math.PI*0.5, 0, 0)
+ planeZ4.position.set(-10, -1, 15)
+
+ const planeZ5 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
+ planeZ5.rotation.set(-Math.PI*0.5, 0, 0)
+ planeZ5.position.set(-10, -1, 5)
+
  const planeX1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#f7f7f7'}))
  planeX1.rotation.set(-Math.PI*0.5, 0, 0)
  planeX1.position.set(-10, 0, 15)
 
-//  const planeX2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshBasicMaterial({color: '#dfe3ee'}))
-//  planeX2.rotation.set(-Math.PI*0.5, 0, 0)
-//  planeX2.position.set(-30, -5, -5)
-//  planeX2.name = 'planeX2'
+ const planeY1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#3b5998'}))
+//  planeY1.rotation.set(0, Math.PI*0.5, 0)
+ planeY1.position.set(-10, -1, 0)
 
 const planeR1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({color: '#ffffff'}))
 planeR1.rotation.set(-Math.PI*0.5, 0, 0)
@@ -95,7 +102,7 @@ const planeR4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBa
 planeR4.rotation.set(-Math.PI*0.5, 0, 0)
 planeR4.position.set(-10, -1, 35)
 
- scene.add(planeX1, planeZ1, planeZ2, planeZ3, planeR1, planeR2, planeR3, planeR4)
+ scene.add(planeZ1, planeZ2, planeZ3, planeZ4, planeZ5, planeX1, planeY1, planeR1, planeR2, planeR3, planeR4)
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -220,6 +227,18 @@ function cameraPositionUpdate() {
         } else if ( updatePosition < 70 ) {
             cameraRotation.set(0, Math.PI*0.01, 0)
             cameraPosition.z -= mousePosition
+        } else if (updatePosition < 85) {
+            if (updatePosition < 71) {
+                cameraPosition.set(-10, 0, 20)
+            }
+            cameraPosition.z -= mousePosition
+            cameraPosition.x += mousePosition*Math.PI*0.1
+        } else if (updatePosition < 92) {
+            cameraPosition.z -= mousePosition
+            cameraPosition.x -= mousePosition*Math.PI*0.1
+        } else if (91 < updatePosition) {
+            updatePosition = 0
+            cameraPosition.set(0, 1, 0)
         }
     }
 }
