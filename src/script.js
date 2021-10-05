@@ -113,9 +113,9 @@ const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45)
 for (let i=0; i<100; i++) {
     const donut = new THREE.Mesh(donutGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture3}))
 
-    donut.position.x = (Math.random() - 0.5) * 50 - 10
+    donut.position.x = (Math.random() - 0.5) * 40 - 5
     donut.position.y = (Math.random() - 0.5) * 5 + 1
-    donut.position.z = (Math.random() - 0.5) * 50 - 10
+    donut.position.z = (Math.random() - 0.5) * 50 + 20
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
@@ -130,9 +130,9 @@ const tetraGeometry = new THREE.TetrahedronGeometry(1, 0)
 for (let i=0; i<100; i++) {
     const tetra = new THREE.Mesh(tetraGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture4}))
 
-    tetra.position.x = (Math.random() - 0.5) * 50 - 10
+    tetra.position.x = (Math.random() - 0.5) * 40 - 5
     tetra.position.y = (Math.random() - 0.5) * 5 + 1
-    tetra.position.z = (Math.random() - 0.5) * 50 - 10
+    tetra.position.z = (Math.random() - 0.5) * 50 + 20
 
     tetra.rotation.x = Math.random() * Math.PI
     tetra.rotation.y = Math.random() * Math.PI
@@ -229,7 +229,7 @@ function cameraPositionUpdate() {
             cameraPosition.z -= mousePosition
         } else if (updatePosition < 85) {
             if (updatePosition < 71) {
-                cameraPosition.set(-10, 0, 20)
+                cameraPosition.set(-8.7, 0, 20)
             }
             cameraPosition.z -= mousePosition
             cameraPosition.x += mousePosition*Math.PI*0.1
