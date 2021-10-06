@@ -34,8 +34,9 @@ environment.floor.map(x => {scene.add(x)})
 const textureLoader = new THREE.TextureLoader()
 const matcapTexture3 = textureLoader.load('/textures/matcaps/3.png')
 const matcapTexture4 = textureLoader.load('/textures/matcaps/4.png')
-
 const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45)
+const tetraGeometry = new THREE.TetrahedronGeometry(1, 0)
+
 for (let i=0; i<100; i++) {
     const donut = new THREE.Mesh(donutGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture3}))
 
@@ -51,8 +52,6 @@ for (let i=0; i<100; i++) {
 
     scene.add(donut)
 }
-
-const tetraGeometry = new THREE.TetrahedronGeometry(1, 0)
 for (let i=0; i<100; i++) {
     const tetra = new THREE.Mesh(tetraGeometry, new THREE.MeshMatcapMaterial({ matcap: matcapTexture4}))
 
