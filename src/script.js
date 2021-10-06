@@ -4,39 +4,34 @@ import * as environment from './environment.js'
 
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
+const sizes = { width: window.innerWidth, height: window.innerHeight}
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    alpha: true
+})
 
-const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-}
-
-window.addEventListener('resize', () =>
-{
-    // Update sizes
+window.addEventListener('resize', () => {
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
 
-    // Update camera
     camera.aspect = sizes.width / sizes.height
     camera.updateProjectionMatrix()
 
-    // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
+window.addEventListener("wheel", onMouseWheel)
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX / sizes.width *2-1
+    mouse.y = -(event.clientY / sizes.height) *2+1 
+})
 
-/**
- * Camera
- */
-// Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 1, 0)
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-scene.add(camera)
 environment.floor.map(x => {scene.add(x)})
 
 const textureLoader = new THREE.TextureLoader()
-
 const matcapTexture3 = textureLoader.load('/textures/matcaps/3.png')
 const matcapTexture4 = textureLoader.load('/textures/matcaps/4.png')
 
@@ -74,29 +69,13 @@ for (let i=0; i<100; i++) {
     scene.add(tetra)
 }
 
-/**
- * Renderer
- */
-const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
-/**
- * Mousewheel Event
- */
-window.addEventListener("wheel", onMouseWheel)
-
 let mousePosition = 0
 let updatePosition = 0
+const mouse = new THREE.Vector2()
 
 function onMouseWheel(event) {
-    mousePosition = event.deltaY * 0.0007 //smaller number faster scroll speed
+    mousePosition = event.deltaY * 0.0007
 }
-
-const mouse = new THREE.Vector2()
 
 function mousePositionUpdate() {
     updatePosition += mousePosition
@@ -110,10 +89,9 @@ function mousePositionReset() {
     }
 }
 
-window.addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX / sizes.width *2-1 //transfer values from -1 to +1
-    mouse.y = -(event.clientY / sizes.height) *2+1 //invert the value
-})
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 1, 0)
+scene.add(camera)
 
 /** 
  * Animate
@@ -180,11 +158,8 @@ const tick = () =>
     mousePositionReset()
     cameraPositionUpdate()
 
-    // Render
-    // controls.update()
     renderer.render(scene, camera)
 
-    // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }
 
