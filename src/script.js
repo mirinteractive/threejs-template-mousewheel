@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import * as environment from './environment.js'
+import * as animation from './animation.js'
 
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
@@ -20,7 +21,7 @@ window.addEventListener('resize', () => {
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
-window.addEventListener("wheel", onMouseWheel)
+window.addEventListener("wheel", animation.onMouseWheel)
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX / sizes.width *2-1
     mouse.y = -(event.clientY / sizes.height) *2+1 
@@ -68,94 +69,19 @@ for (let i=0; i<100; i++) {
     scene.add(tetra)
 }
 
-let mousePosition = 0
-let updatePosition = 0
 const mouse = new THREE.Vector2()
-
-function onMouseWheel(event) {
-    mousePosition = event.deltaY * 0.0007
-}
-
-function mousePositionUpdate() {
-    updatePosition += mousePosition
-    mousePosition *= 0.9
-}
-
-function mousePositionReset() {
-    if (updatePosition < 0) {
-        updatePosition = 0
-        mousePosition = 0
-    }
-}
-
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0, 1, 0)
 scene.add(camera)
 
-/** 
- * Animate
- */    
 let cameraPosition = camera.position
 let cameraRotation = camera.rotation
 
-function cameraPositionUpdate() {
-    if(0 <= updatePosition) {
-        if( updatePosition < 10) {
-            cameraRotation.set(0, Math.PI, 0)
-            cameraPosition.z += mousePosition
-        } else if ( updatePosition < 15) {
-            if (updatePosition < 11) {
-                cameraPosition.set(0, 1, 10)
-            }
-            cameraPosition.x -= mousePosition
-            cameraPosition.z += mousePosition
-            cameraRotation.y -= mousePosition*Math.PI*0.1
-        } else if ( updatePosition < 25) {
-            if (updatePosition < 16) {
-                cameraRotation.set(0, Math.PI*0.55, 0)
-                cameraPosition.set(-5, 1, 15)
-            }
-            cameraPosition.x -= mousePosition
-        } else if ( updatePosition < 30 ) {
-            cameraPosition.x -= mousePosition
-            cameraPosition.z += mousePosition
-            cameraRotation.y += mousePosition*Math.PI*0.1
-        } else if ( updatePosition < 45 ) {
-            cameraRotation.set(0, Math.PI, 0)
-            cameraPosition.z += mousePosition
-            cameraPosition.y -= mousePosition*0.1
-        } else if ( updatePosition < 50 ) {
-            cameraPosition.x += mousePosition
-            cameraPosition.z += mousePosition
-            cameraRotation.y += mousePosition*Math.PI*0.1
-        } else if ( updatePosition < 55 ) {
-            cameraPosition.x += mousePosition
-            cameraPosition.z -= mousePosition
-            cameraRotation.y += mousePosition*Math.PI*0.1
-        } else if ( updatePosition < 70 ) {
-            cameraRotation.set(0, Math.PI*0.01, 0)
-            cameraPosition.z -= mousePosition
-        } else if (updatePosition < 85) {
-            if (updatePosition < 71) {
-                cameraPosition.set(-8.7, 0, 20)
-            }
-            cameraPosition.z -= mousePosition
-            cameraPosition.x += mousePosition*Math.PI*0.1
-        } else if (updatePosition < 92) {
-            cameraPosition.z -= mousePosition
-            cameraPosition.x -= mousePosition*Math.PI*0.1
-        } else if (91 < updatePosition) {
-            updatePosition = 0
-            cameraPosition.set(0, 1, 0)
-        }
-    }
-}
-
 const tick = () =>
 {
-    mousePositionUpdate()
-    mousePositionReset()
-    cameraPositionUpdate()
+    animation.mousePositionUpdate()
+    animation.mousePositionReset()
+    animation.cameraPositionUpdate(cameraPosition, cameraRotation)
 
     renderer.render(scene, camera)
 
