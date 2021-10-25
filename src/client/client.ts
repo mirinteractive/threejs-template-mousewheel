@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as dat from 'three/examples/jsm/libs/dat.gui.module'
 import * as environment from './environment'
 import * as objects from './object'
+import * as animation from './animation'
 
 // static folder location
 // 'static/....'
@@ -17,15 +17,17 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.physicallyCorrectLights = true
 document.body.appendChild(renderer.domElement)
 
+const mouse = new THREE.Vector2()
 const camera = new THREE.PerspectiveCamera(
     75,
     sizes.width / sizes.height,
     0.1,
     1000
 )
-camera.position.set(-5,1,0)
+camera.position.set(0, 1, 0)
 
-new OrbitControls(camera, renderer.domElement)
+let cameraPosition = camera.position
+let cameraRotation = camera.rotation
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -35,6 +37,14 @@ function onWindowResize() {
     renderer.setSize(sizes.width, sizes.height)
     render()
 }
+window.addEventListener("wheel", animation.onMouseWheel)
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX / sizes.width *2-1
+    mouse.y = -(event.clientY / sizes.height) *2+1 
+})
+
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 const gui = new dat.GUI()
 //이거로 애니메이션 poc 진행
@@ -57,8 +67,12 @@ environment.floor.map(x => {scene.add(x)})
 objects.geometry.map(x=>{scene.add(x)})
 
 function animate() {
-    requestAnimationFrame(animate)
+    animation.mousePositionUpdate()
+    animation.mousePositionReset()
+    animation.cameraPositionUpdate(cameraPosition, cameraRotation)
+
     render()
+    requestAnimationFrame(animate)
 }
 
 function render() {
