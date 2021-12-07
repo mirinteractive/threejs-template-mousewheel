@@ -22,7 +22,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 )
-camera.position.set(-1,1,0)
+camera.position.set(0,0,0)
 let cameraPosition = camera.position
 let cameraRotation = camera.rotation
 

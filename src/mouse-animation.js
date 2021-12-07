@@ -5,7 +5,7 @@ let mouseSpeedPercent = 0
 
 function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007
-    mouseSpeedUpdate()
+    console.log('mousePosition', mousePosition);
 }
 
 function mousePositionUpdate() {
