@@ -13,7 +13,7 @@ const sizes = { width: window.innerWidth, height: window.innerHeight}
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width, sizes.height)
-document.body.appendChild(renderer.domElement)
+document.body.appendChild(renderer.domElement) 
 
 const mouse = new THREE.Vector2()
 const camera = new THREE.PerspectiveCamera(
