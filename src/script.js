@@ -34,16 +34,29 @@ function onWindowResize() {
     renderer.setSize(sizes.width, sizes.height)
     render()
 }
-window.addEventListener("wheel", animation.onMouseWheel)
-window.addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX / sizes.width *2-1
-    mouse.y = -(event.clientY / sizes.height) *2+1 
-})
+window.addEventListener("wheel", window.addEventListener("wheel", (event)=>{
+    animation.onMouseWheel(event)
+
+    // you may move the camera position updating logic here
+    // in case you prefer accurate movement base on the mousewheel
+    // animation.mousePositionUpdate()
+    // animation.mousePositionReset()
+    // animation.cameraPositionUpdate(cameraPosition)
+}))
+if ('ontouchstart' in window){
+    window.addEventListener('touchmove', move);
+    }else{
+    // window.addEventListener( 'resize', onWindowResize, false );
+    window.addEventListener('mousemove', (event) => {
+        mouse.x = event.clientX / sizes.width *2-1
+        mouse.y = -(event.clientY / sizes.height) *2+1 
+    })
+}
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-environment.base.map(x => {scene.add(x)})
-environment.background.map(x => {scene.add(x)})
+environment.baseElement(scene)
+environment.generateParticles(scene)
 
 function animate() {
     animation.mousePositionUpdate()
