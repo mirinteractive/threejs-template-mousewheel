@@ -1,25 +1,9 @@
-//mouse scroll
 let mousePosition = 0
 let updatePosition = 0
-const scrollAmountValue = 7
 
-function countMouseScroll() {
-  if (mousePosition<0){
-    scrollAmount --
-    if (scrollAmount<0){
-      scrollAmount=0
-    }
-  } else if(0<mousePosition) {
-    scrollAmount ++
-    if (scrollAmountValue*46<scrollAmount){
-      scrollAmount=scrollAmountValue*46
-    }
-  }
-}
-
-const onMouseWheel=(event)=>{
+function onMouseWheel(event) {
     mousePosition = event.deltaY * 0.0007
-    countMouseScroll()
+    console.log('mousePosition', mousePosition);
 }
 
 function mousePositionUpdate() {
@@ -61,23 +45,27 @@ const onTouchScroll=()=>{
 }
 
 function cameraPositionUpdate( cameraPosition, cameraRotation) {
-    if( scrollAmount==0){
-        cameraRotation.set(0, 0, 0)
-        cameraPosition.set(0, 0, 0)
-      }
-      else if (0<scrollAmount && scrollAmount<=scrollAmountValue){
-        // need to lock position if you change and rotate camera into various directions
-        // if (updatePosition < 11) {
-        //     // cameraPosition.set(0, 1, 10)
-        // }
-        cameraPosition.x -= mousePosition
-        cameraPosition.z += mousePosition
-        cameraRotation.y -= mousePosition*Math.PI*0.1
+      if(0 <= updatePosition) {
+          if( updatePosition < 10) {
+              cameraRotation.set(0, Math.PI, 0)
+              cameraPosition.z += mousePosition
+          } else if ( updatePosition < 15) {
+              if (updatePosition < 11) {
+                  cameraPosition.set(0, 1, 10)
+              }
+              cameraPosition.x -= mousePosition
+              cameraPosition.z += mousePosition
+              cameraRotation.y -= mousePosition*Math.PI*0.1
+          } 
+        //   else if (91 < updatePosition) {
+        //       updatePosition = 0
+        //       cameraPosition.set(0, 1, 0)
+        //   }
       }
   }
 
 export { 
-    onMouseWheel, mousePositionUpdate, mousePositionReset, 
-    touchStart, touchEnd, onTouchScroll, 
-    cameraPositionUpdate 
- }
+  onMouseWheel, mousePositionUpdate, mousePositionReset, 
+  touchStart, touchEnd, onTouchScroll,
+  cameraPositionUpdate 
+}

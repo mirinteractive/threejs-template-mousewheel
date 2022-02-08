@@ -1,11 +1,8 @@
 import './style.css'
 import * as THREE from 'three'
 import * as dat from 'lil-gui'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as environment from './environment.js'
 import * as animation from './mouse-animation.js'
-import sampleVertexShader from './shaders/sample/vertex.glsl'
-import sampleFragmentShader from './shaders/sample/fragment.glsl'
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color('#000000')
@@ -14,6 +11,8 @@ const sizes = { width: window.innerWidth, height: window.innerHeight}
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width, sizes.height)
 document.body.appendChild(renderer.domElement) 
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 const mouse = new THREE.Vector2()
 const camera = new THREE.PerspectiveCamera(
@@ -34,15 +33,8 @@ function onWindowResize() {
     renderer.setSize(sizes.width, sizes.height)
     render()
 }
-window.addEventListener("wheel", window.addEventListener("wheel", (event)=>{
-    animation.onMouseWheel(event)
 
-    // you may move the camera position updating logic here
-    // in case you prefer accurate movement base on the mousewheel
-    // animation.mousePositionUpdate()
-    // animation.mousePositionReset()
-    // animation.cameraPositionUpdate(cameraPosition)
-}))
+window.addEventListener("wheel", animation.onMouseWheel)
 if ('ontouchstart' in window){
     window.addEventListener('touchmove', move);
     }else{
@@ -52,12 +44,21 @@ if ('ontouchstart' in window){
         mouse.y = -(event.clientY / sizes.height) *2+1 
     })
 }
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+window.addEventListener("touchstart", animation.touchStart);
+
+window.addEventListener("touchend", animation.touchEnd);
+
+function move(evt){
+    mouse.x = (evt.touches) ? evt.touches[0].clientX : evt.clientX;
+    mouse.y = (evt.touches) ? evt.touches[0].clientY : evt.clientY;
+}
+
+//import files
 environment.baseElement(scene)
 environment.generateParticles(scene)
 
+//animate
 function animate() {
     animation.mousePositionUpdate()
     animation.mousePositionReset()
