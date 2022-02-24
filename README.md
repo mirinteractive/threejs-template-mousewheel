@@ -6,6 +6,7 @@
 - both mouse scroll and touch scroll possible
 - you can also put 'cameraControl()' logics inside of the 'animate()' on script.js
 - ... and lots of other stuff
+** calculation of touchscroll got slight accuracy issue and will update in a future
 
 ## This starter references..
 - three.js journey : webpack and basic settings
