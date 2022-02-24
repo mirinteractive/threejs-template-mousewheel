@@ -2,7 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import * as dat from 'lil-gui'
 import * as environment from './environment.js'
-import * as animation from './mouse-animation.js'
+import * as scroll from './scroll-control.js'
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color('#000000')
@@ -34,35 +34,12 @@ function onWindowResize() {
     render()
 }
 
-window.addEventListener("wheel", animation.onMouseWheel)
-if ('ontouchstart' in window){
-    window.addEventListener('touchmove', move);
-    }else{
-    // window.addEventListener( 'resize', onWindowResize, false );
-    window.addEventListener('mousemove', (event) => {
-        mouse.x = event.clientX / sizes.width *2-1
-        mouse.y = -(event.clientY / sizes.height) *2+1 
-    })
-}
-
-window.addEventListener("touchstart", animation.touchStart);
-
-window.addEventListener("touchend", animation.touchEnd);
-
-function move(evt){
-    mouse.x = (evt.touches) ? evt.touches[0].clientX : evt.clientX;
-    mouse.y = (evt.touches) ? evt.touches[0].clientY : evt.clientY;
-}
-
-//import files
+scroll.windowSetting(mouse, cameraPosition, cameraRotation)
 environment.baseElement(scene)
 environment.generateParticles(scene)
 
 //animate
 function animate() {
-    animation.mousePositionUpdate()
-    animation.mousePositionReset()
-    animation.cameraPositionUpdate(cameraPosition, cameraRotation)
 
     requestAnimationFrame(animate)
     render()
